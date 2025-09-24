@@ -151,20 +151,11 @@ El compilador genera diferentes archivos según la etapa:
 3. **Manejo de Errores**: Básico, mejoras pendientes
 4. **Testing**: Cobertura limitada
 
-## Desarrollo Futuro
-
-- [ ] Implementar optimizaciones
-- [ ] Mejorar generación de assembly
-- [ ] Ampliar suite de tests
-- [ ] Implementar más verificaciones semánticas
-- [ ] Mejorar manejo de errores
-
 ## Branches de Entrega
 
 ### Branch Actual: `entrega-lexico-sintactico-ast`
 **Fecha de entrega:** 24 de Septiembre 2025  
 **Etapa:** Análisis Léxico y Sintáctico + Tabla de Símbolos + AST  
-**Estado:** ✅ COMPLETADO
 
 **Contenido:**
 - ✅ Análizador Léxico (Scanner) con flex
@@ -176,14 +167,6 @@ El compilador genera diferentes archivos según la etapa:
 - ✅ Casos de test incluidos
 - ✅ Documentación completa
 
-### Próximas Entregas:
-- **Branch:** `entrega-semantico` (1 de Octubre 2025)
-- **Branch:** `entrega-codigo-intermedio` (8 de Octubre 2025)
-- **Branch:** `entrega-codigo-objeto` (27 de Octubre 2025)
-- **Branch:** `entrega-optimizador` (12 de Noviembre 2025)
-- **Branch:** `entrega-final` (15 de Noviembre 2025)
-
-## Autores
 
 Proyecto desarrollado para la materia Taller de Diseño de Software (Cod. 3306) - DC - FCEFQyN - UNRC
 
