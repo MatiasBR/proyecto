@@ -1,0 +1,10 @@
+program {
+    integer x;
+    integer y;
+    
+    void main() {
+        x = 10;
+        y = 20;
+        return x;
+    }
+}

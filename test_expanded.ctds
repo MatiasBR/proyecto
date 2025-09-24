@@ -1,0 +1,9 @@
+program {
+    integer x = 10;
+    integer y = 20;
+    
+    void main() {
+        x = x + y;
+        return x;
+    }
+}

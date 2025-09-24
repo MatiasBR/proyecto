@@ -1,0 +1,8 @@
+program {
+    integer x;
+    
+    void main() {
+        x = 10;
+        return x;
+    }
+}
