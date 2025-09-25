@@ -1,83 +1,131 @@
-# Compilador TDS25
-
-Compilador para el lenguaje TDS25 implementado como proyecto para la materia Taller de Diseño de Software (Cod. 3306) de la Universidad Nacional de Río Cuarto.
+# Compilador TDS25 - Estructura Modular
 
 ## Descripción
-
-Este compilador implementa las siguientes etapas:
-
-1. **Análisis Léxico y Sintáctico**: Scanner y Parser usando flex/bison
-2. **Análisis Semántico**: Verificación de tipos y alcance de variables
-3. **Generación de Código Intermedio**: Código de Tres Direcciones
-4. **Generación de Código Assembly**: Código assembly x86-64 básico
+Compilador para el lenguaje TDS25 con arquitectura modular que incluye análisis léxico, sintáctico, semántico y generación de código intermedio.
 
 ## Estructura del Proyecto
 
 ```
 proyecto/
-├── Makefile              # Archivo de construcción
 ├── src/
-│   ├── lexer.l           # Especificación del lexer (flex)
-│   ├── parser.y          # Especificación del parser (bison)
-│   ├── ast.h/c           # Estructura del AST
-│   ├── symbol_table.h/c   # Tabla de símbolos
-│   ├── semantic.h/c       # Análisis semántico
-│   ├── intermediate.h/c   # Generación de código intermedio
-│   └── main.c            # Programa principal
-├── test_runner.sh        # Script de pruebas
-└── README.md             # Este archivo
+│   └── main.c                 # Punto de entrada principal
+├── modules/
+│   ├── ast/                  # Módulo de Árbol de Sintaxis Abstracta
+│   │   ├── ast.h
+│   │   └── ast.c
+│   ├── lexer/                # Módulo de Análisis Léxico
+│   │   └── lexer.l
+│   ├── parser/               # Módulo de Análisis Sintáctico
+│   │   └── parser.y
+│   ├── semantic/             # Módulo de Análisis Semántico
+│   │   ├── semantic.h
+│   │   └── semantic.c
+│   ├── intermediate/         # Módulo de Código Intermedio
+│   │   ├── intermediate.h
+│   │   └── intermediate.c
+│   ├── assembly/             # Módulo de Código Assembly
+│   │   ├── assembly.h
+│   │   └── assembly.c
+│   └── common/               # Utilidades Comunes
+│       ├── symbol_table.h
+│       └── symbol_table.c
+├── Makefile                  # Configuración de compilación
+└── test_*.ctds              # Archivos de prueba
 ```
 
-## Requisitos
+## Módulos
 
-- flex (lexer generator)
-- bison (parser generator)
-- gcc (compiler)
-- make
+### 1. AST (Abstract Syntax Tree)
+- **Ubicación**: `modules/ast/`
+- **Propósito**: Definición y manipulación del árbol de sintaxis abstracta
+- **Archivos**: `ast.h`, `ast.c`
 
-### Instalación de dependencias (Ubuntu/Debian)
+### 2. Lexer (Análisis Léxico)
+- **Ubicación**: `modules/lexer/`
+- **Propósito**: Tokenización del código fuente
+- **Archivos**: `lexer.l` (especificación Flex)
 
-```bash
-sudo apt-get update
-sudo apt-get install flex bison gcc make
-```
+### 3. Parser (Análisis Sintáctico)
+- **Ubicación**: `modules/parser/`
+- **Propósito**: Análisis sintáctico y construcción del AST
+- **Archivos**: `parser.y` (especificación Bison)
+
+### 4. Semantic (Análisis Semántico)
+- **Ubicación**: `modules/semantic/`
+- **Propósito**: Verificación semántica y tabla de símbolos
+- **Archivos**: `semantic.h`, `semantic.c`
+
+### 5. Intermediate (Código Intermedio)
+- **Ubicación**: `modules/intermediate/`
+- **Propósito**: Generación de código intermedio (IR)
+- **Archivos**: `intermediate.h`, `intermediate.c`
+
+### 6. Assembly (Código Assembly)
+- **Ubicación**: `modules/assembly/`
+- **Propósito**: Generación de código assembly x86-64
+- **Archivos**: `assembly.h`, `assembly.c`
+
+### 7. Common (Utilidades)
+- **Ubicación**: `modules/common/`
+- **Propósito**: Funciones comunes como tabla de símbolos
+- **Archivos**: `symbol_table.h`, `symbol_table.c`
 
 ## Compilación
 
 ```bash
+# Compilar el proyecto
 make
+
+# Limpiar archivos generados
+make clean
+
+# Ejecutar pruebas
+make test
 ```
 
-Esto generará el ejecutable `c-tds`.
+## Dependencias
+
+- **Flex**: Generador de analizadores léxicos
+- **Bison**: Generador de analizadores sintácticos
+- **GCC**: Compilador de C
+
+## Instalación de Dependencias
+
+```bash
+# Ubuntu/Debian
+sudo apt-get install flex bison gcc
+
+# O usar el target del Makefile
+make install-deps
+```
 
 ## Uso
 
 ```bash
-./c-tds [opcion] nombreArchivo.ctds
+# Compilar un archivo .ctds
+./c-tds archivo.ctds
+
+# Con opciones
+./c-tds -debug -target parse archivo.ctds
 ```
 
-### Opciones
+## Estructura de Ramas del Proyecto
 
-- `-o <salida>`: Renombra el archivo ejecutable
-- `-target <etapa>`: Compila hasta la etapa especificada (scan, parse, codinter, assembly)
-- `-opt [optimizacion]`: Realiza optimizaciones
-- `-debug`: Imprime información de debugging
-- `-h, --help`: Muestra la ayuda
+Este proyecto sigue el cronograma establecido en las especificaciones TDS25. Cada etapa tiene su propia rama:
 
-### Ejemplos
+### 🌿 Ramas por Etapa de Entrega
 
-```bash
-# Compilar hasta análisis sintáctico
-./c-tds -target parse programa.ctds
+| Rama | Etapa | Fecha de Entrega | Estado |
+|------|-------|------------------|--------|
+| `main` | Rama principal estable | - | ✅ |
+| `entrega-lexico-sintactico-ast` | **Etapa 1**: Análizador Léxico y Sintáctico | 15 de Septiembre | ✅ Completada |
+| `entrega-parser-expandido-24sept` | **Etapa 1**: Parser Expandido | 24 de Septiembre | ✅ Completada |
+| `entrega-semantico-codigo-intermedio-01oct` | **Etapa 2**: Análizador Semántico + Código Intermedio | 01 de Octubre | ✅ Completada |
+| `entrega-codigo-objeto-27oct` | **Etapa 3**: Generador Código Objeto | 27 de Octubre | 🔄 En desarrollo |
+| `entrega-optimizador-12nov` | **Etapa 4**: Optimizador | 12 de Noviembre | 📋 Pendiente |
+| `entrega-final-15nov` | **Etapa 5**: Entrega Final | 15 de Noviembre | 📋 Pendiente |
 
-# Compilar hasta código intermedio
-./c-tds -target codinter programa.ctds
-
-# Compilar completamente con debug
-./c-tds -debug programa.ctds
-```
-
-## Ejecutar Tests
+### 📋 Instrucciones de Uso por Rama
 
 ```bash
 make test
@@ -151,18 +199,21 @@ El compilador genera diferentes archivos según la etapa:
 3. **Manejo de Errores**: Básico, mejoras pendientes
 4. **Testing**: Cobertura limitada
 
-## Desarrollo Futuro
+## Branches de Entrega
 
-- [ ] Implementar optimizaciones
-- [ ] Mejorar generación de assembly
-- [ ] Ampliar suite de tests
-- [ ] Implementar más verificaciones semánticas
-- [ ] Mejorar manejo de errores
+### Branch Actual: `entrega-lexico-sintactico-ast`
+**Fecha de entrega:** 24 de Septiembre 2025  
+**Etapa:** Análisis Léxico y Sintáctico + Tabla de Símbolos + AST  
 
-## Autores
+**Contenido:**
+- ✅ Análizador Léxico (Scanner) con flex
+- ✅ Análizador Sintáctico (Parser) con bison
+- ✅ Tabla de Símbolos (TS) implementada
+- ✅ Abstract Syntax Tree (AST) completo
+- ✅ Interfaz CLI funcional
+- ✅ Generación de archivos .sint
+- ✅ Casos de test incluidos
+- ✅ Documentación completa
+
 
 Proyecto desarrollado para la materia Taller de Diseño de Software (Cod. 3306) - DC - FCEFQyN - UNRC
-
-## Licencia
-
-Este proyecto es parte de un trabajo académico.
