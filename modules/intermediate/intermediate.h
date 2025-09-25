@@ -2,8 +2,8 @@
 #define INTERMEDIATE_H
 
 #include "../ast/ast.h"
-#include "../common/symbol_table.h"
 
+// Tipos de instrucciones de código intermedio
 typedef enum {
     IR_ASSIGN,
     IR_ADD,
@@ -26,10 +26,11 @@ typedef enum {
     IR_PARAM,
     IR_FUNC_START,
     IR_FUNC_END
-} IRType;
+} IRInstructionType;
 
+// Estructura para una instrucción IR
 typedef struct IRInstruction {
-    IRType type;
+    IRInstructionType type;
     char* result;
     char* arg1;
     char* arg2;
@@ -37,24 +38,19 @@ typedef struct IRInstruction {
     struct IRInstruction* next;
 } IRInstruction;
 
-typedef struct IRCode {
+// Estructura para el código intermedio
+typedef struct {
     IRInstruction* instructions;
-    int instruction_count;
+    int temp_count;
 } IRCode;
 
-// Function declarations
+// Funciones principales
 IRCode* generate_intermediate_code(ASTNode* root);
-IRInstruction* create_ir_instruction(IRType type, char* result, char* arg1, char* arg2, char* label);
-void add_ir_instruction(IRCode* code, IRInstruction* instruction);
-void print_ir_code(IRCode* code);
-void free_ir_code(IRCode* code);
-void free_ir_instruction(IRInstruction* instruction);
+void print_ir_code(IRCode* ir_code);
+void free_ir_code(IRCode* ir_code);
 
-// Code generation functions
-IRCode* generate_program_code(ASTNode* node);
-IRCode* generate_method_code(ASTNode* node);
-IRCode* generate_block_code(ASTNode* node);
-IRCode* generate_statement_code(ASTNode* node);
-IRCode* generate_expr_code(ASTNode* node);
+// Funciones auxiliares
+char* generate_temp();
+IRInstruction* create_ir_instruction(IRInstructionType type, char* result, char* arg1, char* arg2, char* label);
 
 #endif

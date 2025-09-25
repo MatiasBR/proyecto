@@ -82,7 +82,8 @@ extern int yydebug;
     RBRACE = 288,
     SEMICOLON = 289,
     COMMA = 290,
-    ERROR = 291
+    ERROR = 291,
+    UMINUS = 292
   };
 #endif
 
@@ -90,13 +91,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 18 "modules/parser/parser.y"
+#line 21 "modules/parser/parser.y"
 
     int int_val;
     char* string_val;
     ASTNode* node;
 
-#line 100 "modules/parser/parser.h"
+#line 101 "modules/parser/parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -306,7 +306,8 @@ int main(int argc, char* argv[]) {
         // Compilar assembly a ejecutable
         char compile_cmd[512];
         snprintf(compile_cmd, sizeof(compile_cmd), 
-                "gcc -o %s %s", exe_filename, output_filename);
+                "as -o %s.o %s && ld -o %s %s.o", 
+                output_filename, output_filename, exe_filename, output_filename);
         
         if (debug_mode) {
             printf("Compilando assembly: %s\n", compile_cmd);

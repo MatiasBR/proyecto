@@ -1,0 +1,37 @@
+# Ejecutables
+c-tds
+debug-c-tds
+test-simple
+
+# Archivos objeto
+*.o
+
+# Archivos generados por herramientas
+modules/lexer/lexer.c
+modules/parser/parser.c
+modules/parser/parser.h
+
+# Archivos de prueba temporales
+test_*.ctds
+test_*.sint
+debug_main.c
+
+# Archivos de salida del compilador
+*.lex
+*.sint
+*.sem
+*.ci
+*.ass
+*.opt
+*.out
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

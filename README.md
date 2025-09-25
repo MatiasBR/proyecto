@@ -108,3 +108,47 @@ make install-deps
 3. **Reutilización**: Los módulos pueden ser reutilizados
 4. **Escalabilidad**: Fácil agregar nuevas funcionalidades
 5. **Organización**: Estructura clara y lógica
+
+## Mejoras Implementadas
+
+### Basadas en el Proyecto de Referencia
+
+1. **AST Optimizado**: 
+   - Uso de uniones para optimizar memoria
+   - Estructuras específicas por tipo de nodo
+   - Mejor manejo de listas con punteros `siguiente`
+
+2. **Lexer Mejorado**:
+   - Validación de rangos para enteros (int32)
+   - Mejor manejo de errores léxicos
+   - Soporte para enteros negativos
+
+3. **Parser Robusto**:
+   - Mensajes de error detallados (`parse.error verbose`)
+   - Mejor manejo de conflictos
+
+4. **Tabla de Símbolos Avanzada**:
+   - Soporte para múltiples scopes
+   - Validación semántica mejorada
+   - Tipos de símbolos diferenciados
+
+5. **Script de Compilación**:
+   - Script `compile.sh` con opciones avanzadas
+   - Modo debug integrado
+   - Colores para mejor UX
+
+## Scripts de Compilación
+
+```bash
+# Compilación básica
+./compile.sh archivo.ctds
+
+# Compilación con debug
+./compile.sh archivo.ctds -debug
+
+# Compilación con tests
+./compile.sh archivo.ctds -test
+
+# Limpiar y compilar
+./compile.sh archivo.ctds -clean
+```

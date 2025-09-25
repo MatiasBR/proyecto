@@ -15,6 +15,9 @@ void yyerror(const char* s);
 ASTNode* root = NULL;
 %}
 
+/* Habilitar mensajes de error detallados */
+%define parse.error verbose
+
 %union {
     int int_val;
     char* string_val;
@@ -25,11 +28,20 @@ ASTNode* root = NULL;
 %token <string_val> IDENTIFIER
 %token PROGRAM BOOL DO ELSE EXTERN FALSE IF INTEGER RETURN THEN TRUE VOID WHILE
 %token PLUS MINUS MULTIPLY DIVIDE MODULO LESS GREATER EQUAL AND OR NOT ASSIGN
-%token LPAREN RPAREN LBRACE RBRACE SEMICOLON COMMA ERROR
+%token LPAREN RPAREN LBRACE RBRACE SEMICOLON COMMA ERROR UMINUS
+
+%left OR
+%left AND
+%left EQUAL
+%left LESS GREATER
+%left PLUS MINUS
+%left MULTIPLY DIVIDE MODULO
+%right NOT
+%right UMINUS
 
 %type <node> program var_decl_list method_decl_list var_decl method_decl
 %type <node> type_or_void param_list block statement_list type statement
-%type <node> else_part expr_opt method_call arg_list expr arith_op rel_op cond_op
+%type <node> else_part expr_opt method_call arg_list expr
 %type <node> literal
 
 %start program
@@ -42,8 +54,8 @@ program:
         if ($$) {
             $$->children = malloc(sizeof(ASTNode*) * 2);
             if ($$->children) {
-                $$->children[0] = $3;
-                $$->children[1] = $4;
+                $$->children[0] = $3;  // var_decl_list (puede ser NULL)
+                $$->children[1] = $4;  // method_decl_list (puede ser NULL)
                 $$->child_count = 2;
             }
         }
@@ -56,22 +68,23 @@ var_decl_list:
         $$ = NULL;
     }
     | var_decl_list var_decl {
-        if ($1 && $2) {
+        if ($1) {
+            $1->children = realloc($1->children, sizeof(ASTNode*) * ($1->child_count + 1));
             if ($1->children) {
-                $1->children = realloc($1->children, sizeof(ASTNode*) * ($1->child_count + 1));
-                if ($1->children) {
-                    $1->children[$1->child_count] = $2;
-                    $1->child_count++;
-                }
-            } else {
-                $1->children = malloc(sizeof(ASTNode*));
-                if ($1->children) {
-                    $1->children[0] = $2;
-                    $1->child_count = 1;
+                $1->children[$1->child_count] = $2;
+                $1->child_count++;
+            }
+            $$ = $1;
+        } else {
+            $$ = create_ast_node(VAR_DECL_LIST_NODE, 0, NULL);
+            if ($$) {
+                $$->children = malloc(sizeof(ASTNode*));
+                if ($$->children) {
+                    $$->children[0] = $2;
+                    $$->child_count = 1;
                 }
             }
         }
-        $$ = $1;
     }
     ;
 
@@ -81,6 +94,7 @@ method_decl_list:
     }
     | method_decl_list method_decl {
         if ($1 && $2) {
+            // Agregar a lista existente
             if ($1->children) {
                 $1->children = realloc($1->children, sizeof(ASTNode*) * ($1->child_count + 1));
                 if ($1->children) {
@@ -94,8 +108,20 @@ method_decl_list:
                     $1->child_count = 1;
                 }
             }
+            $$ = $1;
+        } else if ($2) {
+            // Crear nueva lista
+            $$ = create_ast_node(METHOD_DECL_LIST_NODE, 0, NULL);
+            if ($$) {
+                $$->children = malloc(sizeof(ASTNode*));
+                if ($$->children) {
+                    $$->children[0] = $2;
+                    $$->child_count = 1;
+                }
+            }
+        } else {
+            $$ = NULL;
         }
-        $$ = $1;
     }
     ;
 
@@ -105,8 +131,8 @@ var_decl:
         if ($$) {
             $$->children = malloc(sizeof(ASTNode*) * 2);
             if ($$->children) {
-                $$->children[0] = $1;
-                $$->children[1] = create_ast_node(IDENTIFIER_NODE, 0, strdup($2));
+                $$->children[0] = $1;  // type
+                $$->children[1] = create_ast_node(IDENTIFIER_NODE, 0, strdup($2));  // IDENTIFIER
                 $$->child_count = 2;
             }
         }
@@ -119,10 +145,10 @@ method_decl:
         if ($$) {
             $$->children = malloc(sizeof(ASTNode*) * 4);
             if ($$->children) {
-                $$->children[0] = $1;
-                $$->children[1] = create_ast_node(IDENTIFIER_NODE, 0, strdup($2));
-                $$->children[2] = $4;
-                $$->children[3] = $6;
+                $$->children[0] = $1;  // type_or_void
+                $$->children[1] = create_ast_node(IDENTIFIER_NODE, 0, strdup($2));  // IDENTIFIER
+                $$->children[2] = $4;  // param_list (puede ser NULL)
+                $$->children[3] = $6;  // block
                 $$->child_count = 4;
             }
         }
@@ -172,10 +198,15 @@ block:
     LBRACE statement_list RBRACE {
         $$ = create_ast_node(BLOCK_NODE, 0, NULL);
         if ($$) {
-            $$->children = $2 ? malloc(sizeof(ASTNode*)) : NULL;
-            if ($$->children && $2) {
-                $$->children[0] = $2;
-                $$->child_count = 1;
+            if ($2) {
+                $$->children = malloc(sizeof(ASTNode*));
+                if ($$->children) {
+                    $$->children[0] = $2;
+                    $$->child_count = 1;
+                }
+            } else {
+                $$->children = NULL;
+                $$->child_count = 0;
             }
         }
     }
@@ -340,39 +371,145 @@ expr:
     | method_call {
         $$ = $1;
     }
-    | expr arith_op expr {
+    | expr PLUS expr {
         $$ = create_ast_node(BINARY_OP_NODE, 0, NULL);
         if ($$) {
             $$->children = malloc(sizeof(ASTNode*) * 3);
             if ($$->children) {
                 $$->children[0] = $1;
-                $$->children[1] = $2;
+                $$->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("+"));
                 $$->children[2] = $3;
                 $$->child_count = 3;
             }
         }
     }
-    | expr rel_op expr {
+    | expr MINUS expr {
         $$ = create_ast_node(BINARY_OP_NODE, 0, NULL);
         if ($$) {
             $$->children = malloc(sizeof(ASTNode*) * 3);
             if ($$->children) {
                 $$->children[0] = $1;
-                $$->children[1] = $2;
+                $$->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("-"));
                 $$->children[2] = $3;
                 $$->child_count = 3;
             }
         }
     }
-    | expr cond_op expr {
+    | expr MULTIPLY expr {
         $$ = create_ast_node(BINARY_OP_NODE, 0, NULL);
         if ($$) {
             $$->children = malloc(sizeof(ASTNode*) * 3);
             if ($$->children) {
                 $$->children[0] = $1;
-                $$->children[1] = $2;
+                $$->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("*"));
                 $$->children[2] = $3;
                 $$->child_count = 3;
+            }
+        }
+    }
+    | expr DIVIDE expr {
+        $$ = create_ast_node(BINARY_OP_NODE, 0, NULL);
+        if ($$) {
+            $$->children = malloc(sizeof(ASTNode*) * 3);
+            if ($$->children) {
+                $$->children[0] = $1;
+                $$->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("/"));
+                $$->children[2] = $3;
+                $$->child_count = 3;
+            }
+        }
+    }
+    | expr MODULO expr {
+        $$ = create_ast_node(BINARY_OP_NODE, 0, NULL);
+        if ($$) {
+            $$->children = malloc(sizeof(ASTNode*) * 3);
+            if ($$->children) {
+                $$->children[0] = $1;
+                $$->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("%"));
+                $$->children[2] = $3;
+                $$->child_count = 3;
+            }
+        }
+    }
+    | expr LESS expr {
+        $$ = create_ast_node(BINARY_OP_NODE, 0, NULL);
+        if ($$) {
+            $$->children = malloc(sizeof(ASTNode*) * 3);
+            if ($$->children) {
+                $$->children[0] = $1;
+                $$->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("<"));
+                $$->children[2] = $3;
+                $$->child_count = 3;
+            }
+        }
+    }
+    | expr GREATER expr {
+        $$ = create_ast_node(BINARY_OP_NODE, 0, NULL);
+        if ($$) {
+            $$->children = malloc(sizeof(ASTNode*) * 3);
+            if ($$->children) {
+                $$->children[0] = $1;
+                $$->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup(">"));
+                $$->children[2] = $3;
+                $$->child_count = 3;
+            }
+        }
+    }
+    | expr EQUAL expr {
+        $$ = create_ast_node(BINARY_OP_NODE, 0, NULL);
+        if ($$) {
+            $$->children = malloc(sizeof(ASTNode*) * 3);
+            if ($$->children) {
+                $$->children[0] = $1;
+                $$->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("=="));
+                $$->children[2] = $3;
+                $$->child_count = 3;
+            }
+        }
+    }
+    | expr AND expr {
+        $$ = create_ast_node(BINARY_OP_NODE, 0, NULL);
+        if ($$) {
+            $$->children = malloc(sizeof(ASTNode*) * 3);
+            if ($$->children) {
+                $$->children[0] = $1;
+                $$->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("&&"));
+                $$->children[2] = $3;
+                $$->child_count = 3;
+            }
+        }
+    }
+    | expr OR expr {
+        $$ = create_ast_node(BINARY_OP_NODE, 0, NULL);
+        if ($$) {
+            $$->children = malloc(sizeof(ASTNode*) * 3);
+            if ($$->children) {
+                $$->children[0] = $1;
+                $$->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("||"));
+                $$->children[2] = $3;
+                $$->child_count = 3;
+            }
+        }
+    }
+    | MINUS expr %prec UMINUS {
+        $$ = create_ast_node(UNARY_OP_NODE, 0, NULL);
+        if ($$) {
+            $$->children = malloc(sizeof(ASTNode*) * 2);
+            if ($$->children) {
+                $$->children[0] = create_ast_node(OPERATOR_NODE, 0, strdup("-"));
+                $$->children[1] = $2;
+                $$->child_count = 2;
+            }
+        }
+    }
+    | NOT expr {
+        $$ = create_ast_node(UNARY_OP_NODE, 0, NULL);
+        if ($$) {
+            $$->children = malloc(sizeof(ASTNode*) * 2);
+            if ($$->children) {
+                $$->children[0] = create_ast_node(OPERATOR_NODE, 0, strdup("!"));
+                $$->children[1] = $2;
+                $$->child_count = 2;
             }
         }
     }
@@ -381,44 +518,6 @@ expr:
     }
     ;
 
-arith_op:
-    PLUS {
-        $$ = create_ast_node(OPERATOR_NODE, 0, strdup("+"));
-    }
-    | MINUS {
-        $$ = create_ast_node(OPERATOR_NODE, 0, strdup("-"));
-    }
-    | MULTIPLY {
-        $$ = create_ast_node(OPERATOR_NODE, 0, strdup("*"));
-    }
-    | DIVIDE {
-        $$ = create_ast_node(OPERATOR_NODE, 0, strdup("/"));
-    }
-    | MODULO {
-        $$ = create_ast_node(OPERATOR_NODE, 0, strdup("%"));
-    }
-    ;
-
-rel_op:
-    LESS {
-        $$ = create_ast_node(OPERATOR_NODE, 0, strdup("<"));
-    }
-    | GREATER {
-        $$ = create_ast_node(OPERATOR_NODE, 0, strdup(">"));
-    }
-    | EQUAL {
-        $$ = create_ast_node(OPERATOR_NODE, 0, strdup("=="));
-    }
-    ;
-
-cond_op:
-    AND {
-        $$ = create_ast_node(OPERATOR_NODE, 0, strdup("&&"));
-    }
-    | OR {
-        $$ = create_ast_node(OPERATOR_NODE, 0, strdup("||"));
-    }
-    ;
 
 literal:
     INTEGER_LITERAL {

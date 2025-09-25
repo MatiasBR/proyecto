@@ -1,5 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -g
+CFLAGS = -Wall -Wextra -std=c99 -g -O2
+DEBUG_CFLAGS = -Wall -Wextra -std=c99 -g -DDEBUG -O0
 FLEX = flex
 BISON = bison
 TARGET = c-tds
@@ -30,7 +31,7 @@ $(LEX_C): $(LEX_FILE)
 
 # Generar parser
 $(YACC_C) $(YACC_H): $(YACC_FILE)
-	$(BISON) -d -o $(YACC_C) $(YACC_FILE)
+	$(BISON) -d -v -o $(YACC_C) $(YACC_FILE)
 
 # Compilar objetos
 %.o: %.c

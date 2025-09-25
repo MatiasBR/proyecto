@@ -3,8 +3,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
+#include <stdint.h>
+#include <limits.h>
 #include "../ast/ast.h"
 #include "../parser/parser.h"
+
+extern YYSTYPE yylval;
+
+void reportar_error(const char *msg, const char *text, int lineno);
 %}
 
 %option noyywrap
@@ -50,9 +57,16 @@
     return IDENTIFIER;
 }
 
-[0-9]+ {
-    yylval.int_val = atoi(yytext);
-    return INTEGER_LITERAL;
+[-]?[0-9]+ {
+    errno = 0;
+    long long val = strtol(yytext, NULL, 10);
+    
+    if (errno == ERANGE || val < INT32_MIN || val > INT32_MAX) {
+        reportar_error("Literal entero fuera de rango (se espera int32 con signo)", yytext, yylineno);
+    } else {
+        yylval.int_val = (int)val;
+        return INTEGER_LITERAL;
+    }
 }
 
 "//".*$          { /* Comentario de línea - ignorar */ }
@@ -61,8 +75,12 @@
 [ \t\n\r]+       { /* Espacios en blanco - ignorar */ }
 
 .                { 
-    fprintf(stderr, "Error léxico: carácter no reconocido '%c' en línea %d\n", yytext[0], yylineno);
-    return ERROR;
+    reportar_error("Caracter inesperado", yytext, yylineno);
 }
 
 %%
+
+/* Función para reportar un error */
+void reportar_error(const char *msg, const char *text, int lineno) {
+    fprintf(stderr, "Error léxico en línea %d: %s: '%s'\n", lineno, msg, text);
+}
