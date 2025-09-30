@@ -27,5 +27,10 @@ int is_logical_type(DataType type);
 
 // Funciones auxiliares
 int analyze_method_call(ASTNode* node, SymbolTable* table, DataType* result_type);
+int analyze_method_body(ASTNode* node);
+
+// Funciones de reporte de errores
+void report_semantic_error(const char* message, int line);
+void report_semantic_error_with_context(const char* message, const char* context, int line);
 
 #endif
