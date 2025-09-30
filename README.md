@@ -152,3 +152,85 @@ make install-deps
 # Limpiar y compilar
 ./compile.sh archivo.ctds -clean
 ```
+
+## Testing del Análisis Semántico
+
+### Comandos Básicos de Testing
+
+```bash
+# Compilar el proyecto
+make
+
+# Probar programa básico (funciona)
+./c-tds -debug test.ctds
+
+# Probar programa simple (funciona)
+./c-tds -debug test_simple.ctds
+
+# Ejecutar todos los tests
+./test_runner.sh
+```
+
+### Archivos de Prueba Disponibles
+
+- **`test.ctds`** - Programa básico con variable
+- **`test_simple.ctds`** - Programa simple
+- **`test_semantic_valid.ctds`** - Programa válido con funciones
+- **`test_semantic_errors.ctds`** - Programa con errores semánticos
+- **`test_semantic_no_main.ctds`** - Programa sin función main
+
+### Opciones del Compilador
+
+```bash
+# Compilación básica
+./c-tds archivo.ctds
+
+# Con debug (recomendado para testing)
+./c-tds -debug archivo.ctds
+
+# Hasta análisis sintáctico
+./c-tds -target parse archivo.ctds
+
+# Hasta análisis semántico
+./c-tds -target semantic archivo.ctds
+
+# Hasta código intermedio
+./c-tds -target codinter archivo.ctds
+
+# Hasta assembly (por defecto)
+./c-tds -target assembly archivo.ctds
+```
+
+### Reglas Semánticas Implementadas
+
+El análisis semántico verifica las siguientes reglas del TDS25:
+
+- ✅ **Regla 1**: No redeclaración en mismo scope
+- ✅ **Regla 2**: Declaración antes de uso
+- ✅ **Regla 3**: Función main obligatoria
+- ✅ **Regla 4**: Argumentos de métodos correctos
+- ✅ **Regla 5**: Métodos como expresión deben retornar valor
+- ✅ **Regla 6**: Return void sin expresión
+- ✅ **Regla 7**: Return con tipo correcto
+- ✅ **Regla 8**: Variables declaradas
+- ✅ **Regla 9**: Condiciones bool en if/while
+- ✅ **Regla 10**: Operadores aritméticos con integer
+- ✅ **Regla 11**: Operador == con mismo tipo
+- ✅ **Regla 12**: Operadores lógicos con bool
+- ✅ **Regla 13**: Asignaciones con tipos compatibles
+
+### Ejemplos de Testing
+
+```bash
+# Test 1: Programa válido
+./c-tds -debug test.ctds
+# Resultado esperado: "Análisis semántico exitoso"
+
+# Test 2: Programa simple
+./c-tds -debug test_simple.ctds
+# Resultado esperado: Compilación completa exitosa
+
+# Test 3: Ver solo análisis semántico
+./c-tds -target semantic test.ctds
+# Resultado esperado: Solo análisis semántico sin generar código
+```
