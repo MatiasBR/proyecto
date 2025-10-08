@@ -55,5 +55,23 @@ IRInstruction* create_ir_instruction(IRInstructionType type, char* result, char*
 void add_instruction(IRCode* ir_code, IRInstruction* instr);
 void generate_program_ir(ASTNode* node, IRCode* ir_code);
 
+// Funciones de generación IR para diferentes tipos de nodos
+void generate_var_decl_ir(ASTNode* node, IRCode* ir_code);
+void generate_method_decl_ir(ASTNode* node, IRCode* ir_code);
+void generate_block_ir(ASTNode* node, IRCode* ir_code);
+void generate_assign_stmt_ir(ASTNode* node, IRCode* ir_code);
+void generate_if_stmt_ir(ASTNode* node, IRCode* ir_code);
+void generate_while_stmt_ir(ASTNode* node, IRCode* ir_code);
+void generate_return_stmt_ir(ASTNode* node, IRCode* ir_code);
+void generate_method_call_stmt_ir(ASTNode* node, IRCode* ir_code);
+void generate_method_call_ir(ASTNode* node, IRCode* ir_code);
+void generate_arg_list_ir(ASTNode* node, IRCode* ir_code);
+char* generate_expression_ir(ASTNode* node, IRCode* ir_code);
+
+// Funciones de utilidad
+IRInstructionType get_ir_type_from_operator(char* op);
+IRInstructionType get_ir_type_from_unary_operator(char* op);
+char* generate_label();
+
 
 #endif
