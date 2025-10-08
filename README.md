@@ -1,7 +1,7 @@
 # Compilador TDS25 - Estructura Modular
 
 ## Descripción
-Compilador para el lenguaje TDS25 con arquitectura modular que incluye análisis léxico, sintáctico, semántico y generación de código intermedio. **ENTREGA DEL 8 DE OCTUBRE COMPLETADA** ✅
+Compilador para el lenguaje TDS25 con arquitectura modular que incluye análisis léxico, sintáctico, semántico y generación de código intermedio. 
 
 ## Estado del Proyecto (8 de Octubre 2025)
 - ✅ **Análisis Léxico y Sintáctico**: Funcionando correctamente
@@ -127,41 +127,6 @@ echo "program { }" > test.ctds
 # t1 = 0
 ```
 
-## Ventajas de la Estructura Modular
-
-1. **Separación de responsabilidades**: Cada módulo tiene una función específica
-2. **Mantenibilidad**: Fácil localización y modificación de código
-3. **Reutilización**: Los módulos pueden ser reutilizados
-4. **Escalabilidad**: Fácil agregar nuevas funcionalidades
-5. **Organización**: Estructura clara y lógica
-
-## Mejoras Implementadas
-
-### Basadas en el Proyecto de Referencia
-
-1. **AST Optimizado**: 
-   - Uso de uniones para optimizar memoria
-   - Estructuras específicas por tipo de nodo
-   - Mejor manejo de listas con punteros `siguiente`
-
-2. **Lexer Mejorado**:
-   - Validación de rangos para enteros (int32)
-   - Mejor manejo de errores léxicos
-   - Soporte para enteros negativos
-
-3. **Parser Robusto**:
-   - Mensajes de error detallados (`parse.error verbose`)
-   - Mejor manejo de conflictos
-
-4. **Tabla de Símbolos Avanzada**:
-   - Soporte para múltiples scopes
-   - Validación semántica mejorada
-   - Tipos de símbolos diferenciados
-
-5. **Script de Compilación**:
-   - Script `compile.sh` con opciones avanzadas
-   - Modo debug integrado
-   - Colores para mejor UX
 
 ## Scripts de Compilación
 
@@ -206,11 +171,11 @@ make
 - **`test1.ctds` a `test5.ctds`** - Programas de prueba múltiple (funcionan)
 
 ### Estado de las Pruebas (8 de Octubre)
-- ✅ **Programas vacíos**: Funcionan correctamente
-- ✅ **Análisis léxico**: Sin errores
-- ✅ **Análisis sintáctico**: Sin segfaults
-- ✅ **Análisis semántico**: Funcionando
-- ✅ **Generación IR**: Código de tres direcciones generado
+- ✅ **Programas vacíos**:
+- ✅ **Análisis léxico**:
+- ✅ **Análisis sintáctico**: 
+- ✅ **Análisis semántico**: 
+- ✅ **Generación IR**: 
 
 ### Opciones del Compilador
 
@@ -243,23 +208,6 @@ make
 - ✅ **Generación básica**: Funcionando correctamente
 - ✅ **Pipeline completo**: Desde análisis hasta código intermedio
 
-### Reglas Semánticas Implementadas
-
-El análisis semántico verifica las siguientes reglas del TDS25:
-
-- ✅ **Regla 1**: No redeclaración en mismo scope
-- ✅ **Regla 2**: Declaración antes de uso
-- ⚠️ **Regla 3**: Función main obligatoria (temporalmente deshabilitada para testing)
-- ✅ **Regla 4**: Argumentos de métodos correctos
-- ✅ **Regla 5**: Métodos como expresión deben retornar valor
-- ✅ **Regla 6**: Return void sin expresión
-- ✅ **Regla 7**: Return con tipo correcto
-- ✅ **Regla 8**: Variables declaradas
-- ✅ **Regla 9**: Condiciones bool en if/while
-- ✅ **Regla 10**: Operadores aritméticos con integer
-- ✅ **Regla 11**: Operador == con mismo tipo
-- ✅ **Regla 12**: Operadores lógicos con bool
-- ✅ **Regla 13**: Asignaciones con tipos compatibles
 
 ### Ejemplos de Testing
 
@@ -277,29 +225,4 @@ El análisis semántico verifica las siguientes reglas del TDS25:
 # Resultado esperado: Solo análisis semántico sin generar código
 ```
 
-## 🎉 ENTREGA DEL 8 DE OCTUBRE - COMPLETADA
 
-1. **Análisis Léxico y Sintáctico** ✅
-   - Tokenización correcta
-   - Análisis sintáctico sin segfaults
-   - Manejo de programas vacíos
-
-2. **Análisis Semántico** ✅
-   - Verificación de reglas semánticas
-   - Tabla de símbolos implementada
-   - Análisis de tipos
-
-3. **Generador de Código Intermedio** ✅
-   - **Código de Tres Direcciones** implementado
-   - Estructura completa para operaciones aritméticas, lógicas y control de flujo
-   - Generación de código IR funcional
-
-4. **Front-end del Compilador** ✅
-   - Pipeline completo desde análisis hasta código intermedio
-   - Sin errores críticos
-   - Testing exitoso
-
-### 🚀 **ESTADO FINAL:**
-- **Compilador funcional** ✅
-- **Código de tres direcciones** ✅
-- **Front-end completo** ✅
