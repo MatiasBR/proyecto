@@ -3,6 +3,7 @@
 
 #ifndef strdup
 char* strdup(const char* s) {
+    if (!s) return NULL;
     size_t len = strlen(s) + 1;
     char* dup = malloc(len);
     if (dup) {
@@ -21,7 +22,11 @@ ASTNode* create_ast_node(ASTNodeType type, int int_value, char* string_value) {
     
     node->type = type;
     node->int_value = int_value;
-    node->string_value = string_value ? strdup(string_value) : NULL;
+    if (string_value) {
+        node->string_value = strdup(string_value);
+    } else {
+        node->string_value = NULL;
+    }
     node->children = NULL;
     node->child_count = 0;
     

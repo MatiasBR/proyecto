@@ -73,3 +73,4 @@ void print_ast(ASTNode* node, int depth);
 const char* get_node_type_name(ASTNodeType type);
 
 #endif
+
