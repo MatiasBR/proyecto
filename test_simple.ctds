@@ -1,1 +1,5 @@
-program { }
+program {
+    integer x = 5;
+    integer y = 10;
+    integer z = x + y;
+}

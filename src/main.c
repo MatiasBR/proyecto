@@ -128,9 +128,13 @@ int main(int argc, char* argv[]) {
         
         if (debug_mode) {
             printf("\n=== Análisis Semántico ===\n");
+            printf("DEBUG: root before semantic analysis: %p\n", (void*)root);
         }
         
         int semantic_result = semantic_analysis(root);
+        if (debug_mode) {
+            printf("DEBUG: root after semantic analysis: %p\n", (void*)root);
+        }
         if (semantic_result == 0) {
             fprintf(stderr, "Error en el análisis semántico\n");
             fclose(yyin);
@@ -162,7 +166,9 @@ int main(int argc, char* argv[]) {
             printf("\n=== Generación de Código Intermedio ===\n");
         }
         
+        printf("DEBUG: About to call generate_intermediate_code with root=%p\n", (void*)root);
         IRCode* ir_code = generate_intermediate_code(root);
+        printf("DEBUG: generate_intermediate_code returned %p\n", (void*)ir_code);
         if (ir_code) {
             if (debug_mode) {
                 printf("Código intermedio generado:\n");
