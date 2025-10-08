@@ -2064,3 +2064,4 @@ void reportar_error(const char *msg, const char *text, int lineno) {
     fprintf(stderr, "Error léxico en línea %d: %s: '%s'\n", lineno, msg, text);
 }
 
+

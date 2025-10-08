@@ -203,6 +203,8 @@ block:
                 if ($$->children) {
                     $$->children[0] = $2;
                     $$->child_count = 1;
+                } else {
+                    $$->child_count = 0;
                 }
             } else {
                 $$->children = NULL;
@@ -536,3 +538,4 @@ literal:
 void yyerror(const char* s) {
     fprintf(stderr, "Error sintáctico en línea %d: %s\n", yylineno, s);
 }
+

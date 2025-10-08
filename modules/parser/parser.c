@@ -66,7 +66,7 @@
 
 
 /* First part of user prologue.  */
-#line 1 "modules/parser/parser.y"
+#line 1 "modules/parser/parser_simple_final.y"
 
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -111,7 +111,7 @@ ASTNode* root = NULL;
 # undef YYERROR_VERBOSE
 # define YYERROR_VERBOSE 1
 #else
-# define YYERROR_VERBOSE 1
+# define YYERROR_VERBOSE 0
 #endif
 
 /* Use api.header.include to #include this header
@@ -135,37 +135,35 @@ extern int yydebug;
     IDENTIFIER = 259,
     PROGRAM = 260,
     BOOL = 261,
-    DO = 262,
-    ELSE = 263,
-    EXTERN = 264,
-    FALSE = 265,
-    IF = 266,
-    INTEGER = 267,
-    RETURN = 268,
-    THEN = 269,
-    TRUE = 270,
-    VOID = 271,
-    WHILE = 272,
-    PLUS = 273,
-    MINUS = 274,
-    MULTIPLY = 275,
-    DIVIDE = 276,
-    MODULO = 277,
-    LESS = 278,
-    GREATER = 279,
-    EQUAL = 280,
-    AND = 281,
-    OR = 282,
-    NOT = 283,
-    ASSIGN = 284,
-    LPAREN = 285,
-    RPAREN = 286,
-    LBRACE = 287,
-    RBRACE = 288,
-    SEMICOLON = 289,
-    COMMA = 290,
-    ERROR = 291,
-    UMINUS = 292
+    ELSE = 262,
+    EXTERN = 263,
+    FALSE = 264,
+    IF = 265,
+    INTEGER = 266,
+    RETURN = 267,
+    THEN = 268,
+    TRUE = 269,
+    VOID = 270,
+    WHILE = 271,
+    PLUS = 272,
+    MINUS = 273,
+    MULTIPLY = 274,
+    DIVIDE = 275,
+    MODULO = 276,
+    LESS = 277,
+    GREATER = 278,
+    EQUAL = 279,
+    AND = 280,
+    OR = 281,
+    NOT = 282,
+    ASSIGN = 283,
+    LPAREN = 284,
+    RPAREN = 285,
+    LBRACE = 286,
+    RBRACE = 287,
+    SEMICOLON = 288,
+    COMMA = 289,
+    ERROR = 290
   };
 #endif
 
@@ -173,13 +171,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 21 "modules/parser/parser.y"
+#line 18 "modules/parser/parser_simple_final.y"
 
     int int_val;
     char* string_val;
     ASTNode* node;
 
-#line 183 "modules/parser/parser.c"
+#line 181 "modules/parser/parser.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -498,19 +496,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   155
+#define YYLAST   3
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  38
+#define YYNTOKENS  36
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  18
+#define YYNNTS  2
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  52
+#define YYNRULES  2
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  93
+#define YYNSTATES  6
 
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   292
+#define YYMAXUTOK   290
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -551,36 +549,28 @@ static const yytype_int8 yytranslate[] =
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37
+      35
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int16 yyrline[] =
+static const yytype_int8 yyrline[] =
 {
-       0,    52,    52,    67,    70,    92,    95,   129,   143,   159,
-     162,   168,   171,   182,   198,   216,   219,   240,   243,   249,
-     252,   263,   266,   278,   289,   299,   305,   308,   314,   317,
-     323,   337,   340,   350,   365,   368,   371,   374,   386,   398,
-     410,   422,   434,   446,   458,   470,   482,   494,   505,   516,
-     523,   526,   529
+       0,    37,    37
 };
 #endif
 
-#if YYDEBUG || YYERROR_VERBOSE || 1
+#if YYDEBUG || YYERROR_VERBOSE || 0
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "INTEGER_LITERAL", "IDENTIFIER",
-  "PROGRAM", "BOOL", "DO", "ELSE", "EXTERN", "FALSE", "IF", "INTEGER",
-  "RETURN", "THEN", "TRUE", "VOID", "WHILE", "PLUS", "MINUS", "MULTIPLY",
-  "DIVIDE", "MODULO", "LESS", "GREATER", "EQUAL", "AND", "OR", "NOT",
-  "ASSIGN", "LPAREN", "RPAREN", "LBRACE", "RBRACE", "SEMICOLON", "COMMA",
-  "ERROR", "UMINUS", "$accept", "program", "var_decl_list",
-  "method_decl_list", "var_decl", "method_decl", "type_or_void",
-  "param_list", "block", "statement_list", "type", "statement",
-  "else_part", "expr_opt", "method_call", "arg_list", "expr", "literal", YY_NULLPTR
+  "PROGRAM", "BOOL", "ELSE", "EXTERN", "FALSE", "IF", "INTEGER", "RETURN",
+  "THEN", "TRUE", "VOID", "WHILE", "PLUS", "MINUS", "MULTIPLY", "DIVIDE",
+  "MODULO", "LESS", "GREATER", "EQUAL", "AND", "OR", "NOT", "ASSIGN",
+  "LPAREN", "RPAREN", "LBRACE", "RBRACE", "SEMICOLON", "COMMA", "ERROR",
+  "$accept", "program", YY_NULLPTR
 };
 #endif
 
@@ -592,7 +582,7 @@ static const yytype_int16 yytoknum[] =
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
-     285,   286,   287,   288,   289,   290,   291,   292
+     285,   286,   287,   288,   289,   290
 };
 # endif
 
@@ -608,18 +598,9 @@ static const yytype_int16 yytoknum[] =
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
-static const yytype_int16 yypact[] =
+static const yytype_int8 yypact[] =
 {
-      -1,   -30,     7,   -31,   -31,    11,   -31,   -31,    15,   -31,
-      28,   -31,   -31,   -31,    30,   -31,    22,    20,   -31,    11,
-      -7,    54,    27,    11,   -31,   -31,   -31,    56,    -3,   -31,
-     -14,    42,    42,    42,   -31,   -31,   -31,   -31,    37,    42,
-      42,   -31,    58,   -31,   -31,    42,    42,    42,   -31,    87,
-     -31,    66,   111,    72,   -31,    55,    16,   111,   -31,   -31,
-      97,    27,    42,    42,    42,    42,    42,    42,    42,    42,
-      42,    42,   -31,   -31,   -31,   -31,    42,   -31,    94,    33,
-      33,   -31,   -31,   -31,    65,    65,    45,   130,   121,   111,
-      27,   -31,   -31
+      -5,   -30,     2,   -29,   -31,   -31
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -627,30 +608,19 @@ static const yytype_int16 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     3,     1,     5,    18,    17,     0,     4,
-       0,    10,     2,     6,     0,     9,     0,     0,     7,    11,
-       0,     0,     0,     0,    12,    15,     8,     0,     0,    13,
-       0,     0,    28,     0,    14,    19,    25,    16,     0,     0,
-      31,    50,    35,    52,    51,     0,     0,     0,    36,     0,
-      34,     0,    29,     0,    21,     0,     0,    32,    47,    48,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,    24,    23,    20,    30,     0,    49,    26,    37,
-      38,    39,    40,    41,    42,    43,    44,    45,    46,    33,
-       0,    22,    27
+       0,     0,     0,     0,     1,     2
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -31,   -31,   -31,   -31,    75,   -31,   -31,   -31,   -28,   -31,
-       3,   -31,   -31,   -31,    98,   -31,   -27,   -31
+     -31,   -31
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     5,     8,     9,    13,    14,    20,    26,    28,
-      10,    37,    91,    51,    48,    56,    49,    50
+      -1,     2
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -658,80 +628,31 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      36,    30,     3,     6,     1,    52,    53,     4,    31,     7,
-      32,    15,    55,    57,    33,    39,    40,     6,    58,    59,
-      60,     6,    21,     7,    22,    73,    27,     7,    23,    25,
-      34,    11,    16,    78,    17,    79,    80,    81,    82,    83,
-      84,    85,    86,    87,    88,    41,    42,    75,    12,    89,
-      19,    76,    43,    64,    65,    66,    18,    44,    24,    25,
-      29,    45,    92,    62,    63,    64,    65,    66,    67,    68,
-      46,    54,    47,    62,    63,    64,    65,    66,    67,    68,
-      69,    70,    71,    62,    63,    64,    65,    66,    40,    74,
-      62,    63,    64,    65,    66,    67,    68,    69,    70,    71,
-      72,    61,    90,    35,    25,    62,    63,    64,    65,    66,
-      67,    68,    69,    70,    71,    62,    63,    64,    65,    66,
-      67,    68,    69,    70,    71,     0,    38,     0,    77,    62,
-      63,    64,    65,    66,    67,    68,    69,    70,    71,    62,
-      63,    64,    65,    66,    67,    68,    69,    70,    62,    63,
-      64,    65,    66,    67,    68,    69
+       1,     3,     4,     5
 };
 
 static const yytype_int8 yycheck[] =
 {
-      28,     4,    32,     6,     5,    32,    33,     0,    11,    12,
-      13,     8,    39,    40,    17,    29,    30,     6,    45,    46,
-      47,     6,    19,    12,    31,    53,    23,    12,    35,    32,
-      33,    16,     4,    61,     4,    62,    63,    64,    65,    66,
-      67,    68,    69,    70,    71,     3,     4,    31,    33,    76,
-      30,    35,    10,    20,    21,    22,    34,    15,     4,    32,
-       4,    19,    90,    18,    19,    20,    21,    22,    23,    24,
-      28,    34,    30,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    18,    19,    20,    21,    22,    30,    34,
-      18,    19,    20,    21,    22,    23,    24,    25,    26,    27,
-      34,    14,     8,    28,    32,    18,    19,    20,    21,    22,
-      23,    24,    25,    26,    27,    18,    19,    20,    21,    22,
-      23,    24,    25,    26,    27,    -1,    28,    -1,    31,    18,
-      19,    20,    21,    22,    23,    24,    25,    26,    27,    18,
-      19,    20,    21,    22,    23,    24,    25,    26,    18,    19,
-      20,    21,    22,    23,    24,    25
+       5,    31,     0,    32
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     5,    39,    32,     0,    40,     6,    12,    41,    42,
-      48,    16,    33,    43,    44,    48,     4,     4,    34,    30,
-      45,    48,    31,    35,     4,    32,    46,    48,    47,     4,
-       4,    11,    13,    17,    33,    42,    46,    49,    52,    29,
-      30,     3,     4,    10,    15,    19,    28,    30,    52,    54,
-      55,    51,    54,    54,    34,    54,    53,    54,    54,    54,
-      54,    14,    18,    19,    20,    21,    22,    23,    24,    25,
-      26,    27,    34,    46,    34,    31,    35,    31,    46,    54,
-      54,    54,    54,    54,    54,    54,    54,    54,    54,    54,
-       8,    50,    46
+       0,     5,    37,    31,     0,    32
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    38,    39,    40,    40,    41,    41,    42,    43,    44,
-      44,    45,    45,    45,    46,    47,    47,    48,    48,    49,
-      49,    49,    49,    49,    49,    49,    50,    50,    51,    51,
-      52,    53,    53,    53,    54,    54,    54,    54,    54,    54,
-      54,    54,    54,    54,    54,    54,    54,    54,    54,    54,
-      55,    55,    55
+       0,    36,    37
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     5,     0,     2,     0,     2,     3,     6,     1,
-       1,     0,     2,     4,     3,     0,     2,     1,     1,     1,
-       4,     2,     5,     3,     3,     1,     0,     2,     0,     1,
-       4,     0,     1,     3,     1,     1,     1,     3,     3,     3,
-       3,     3,     3,     3,     3,     3,     3,     2,     2,     3,
-       1,     1,     1
+       0,     2,     3
 };
 
 
@@ -1427,693 +1348,20 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 52 "modules/parser/parser.y"
-                                                         {
+#line 37 "modules/parser/parser_simple_final.y"
+                          {
         (yyval.node) = create_ast_node(PROGRAM_NODE, 0, NULL);
         if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 2);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);  // var_decl_list (puede ser NULL)
-                (yyval.node)->children[1] = (yyvsp[-1].node);  // method_decl_list (puede ser NULL)
-                (yyval.node)->child_count = 2;
-            }
+            (yyval.node)->children = NULL;
+            (yyval.node)->child_count = 0;
         }
         root = (yyval.node);
     }
-#line 1444 "modules/parser/parser.c"
-    break;
-
-  case 3:
-#line 67 "modules/parser/parser.y"
-                {
-        (yyval.node) = NULL;
-    }
-#line 1452 "modules/parser/parser.c"
-    break;
-
-  case 4:
-#line 70 "modules/parser/parser.y"
-                             {
-        if ((yyvsp[-1].node)) {
-            (yyvsp[-1].node)->children = realloc((yyvsp[-1].node)->children, sizeof(ASTNode*) * ((yyvsp[-1].node)->child_count + 1));
-            if ((yyvsp[-1].node)->children) {
-                (yyvsp[-1].node)->children[(yyvsp[-1].node)->child_count] = (yyvsp[0].node);
-                (yyvsp[-1].node)->child_count++;
-            }
-            (yyval.node) = (yyvsp[-1].node);
-        } else {
-            (yyval.node) = create_ast_node(VAR_DECL_LIST_NODE, 0, NULL);
-            if ((yyval.node)) {
-                (yyval.node)->children = malloc(sizeof(ASTNode*));
-                if ((yyval.node)->children) {
-                    (yyval.node)->children[0] = (yyvsp[0].node);
-                    (yyval.node)->child_count = 1;
-                }
-            }
-        }
-    }
-#line 1476 "modules/parser/parser.c"
-    break;
-
-  case 5:
-#line 92 "modules/parser/parser.y"
-                {
-        (yyval.node) = NULL;
-    }
-#line 1484 "modules/parser/parser.c"
-    break;
-
-  case 6:
-#line 95 "modules/parser/parser.y"
-                                   {
-        if ((yyvsp[-1].node) && (yyvsp[0].node)) {
-            // Agregar a lista existente
-            if ((yyvsp[-1].node)->children) {
-                (yyvsp[-1].node)->children = realloc((yyvsp[-1].node)->children, sizeof(ASTNode*) * ((yyvsp[-1].node)->child_count + 1));
-                if ((yyvsp[-1].node)->children) {
-                    (yyvsp[-1].node)->children[(yyvsp[-1].node)->child_count] = (yyvsp[0].node);
-                    (yyvsp[-1].node)->child_count++;
-                }
-            } else {
-                (yyvsp[-1].node)->children = malloc(sizeof(ASTNode*));
-                if ((yyvsp[-1].node)->children) {
-                    (yyvsp[-1].node)->children[0] = (yyvsp[0].node);
-                    (yyvsp[-1].node)->child_count = 1;
-                }
-            }
-            (yyval.node) = (yyvsp[-1].node);
-        } else if ((yyvsp[0].node)) {
-            // Crear nueva lista
-            (yyval.node) = create_ast_node(METHOD_DECL_LIST_NODE, 0, NULL);
-            if ((yyval.node)) {
-                (yyval.node)->children = malloc(sizeof(ASTNode*));
-                if ((yyval.node)->children) {
-                    (yyval.node)->children[0] = (yyvsp[0].node);
-                    (yyval.node)->child_count = 1;
-                }
-            }
-        } else {
-            (yyval.node) = NULL;
-        }
-    }
-#line 1520 "modules/parser/parser.c"
-    break;
-
-  case 7:
-#line 129 "modules/parser/parser.y"
-                              {
-        (yyval.node) = create_ast_node(VAR_DECL_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 2);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);  // type
-                (yyval.node)->children[1] = create_ast_node(IDENTIFIER_NODE, 0, strdup((yyvsp[-1].string_val)));  // IDENTIFIER
-                (yyval.node)->child_count = 2;
-            }
-        }
-    }
-#line 1536 "modules/parser/parser.c"
-    break;
-
-  case 8:
-#line 143 "modules/parser/parser.y"
-                                                           {
-        (yyval.node) = create_ast_node(METHOD_DECL_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 4);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-5].node);  // type_or_void
-                (yyval.node)->children[1] = create_ast_node(IDENTIFIER_NODE, 0, strdup((yyvsp[-4].string_val)));  // IDENTIFIER
-                (yyval.node)->children[2] = (yyvsp[-2].node);  // param_list (puede ser NULL)
-                (yyval.node)->children[3] = (yyvsp[0].node);  // block
-                (yyval.node)->child_count = 4;
-            }
-        }
-    }
-#line 1554 "modules/parser/parser.c"
-    break;
-
-  case 9:
-#line 159 "modules/parser/parser.y"
-         {
-        (yyval.node) = (yyvsp[0].node);
-    }
-#line 1562 "modules/parser/parser.c"
-    break;
-
-  case 10:
-#line 162 "modules/parser/parser.y"
-           {
-        (yyval.node) = create_ast_node(TYPE_NODE, 0, strdup("void"));
-    }
-#line 1570 "modules/parser/parser.c"
-    break;
-
-  case 11:
-#line 168 "modules/parser/parser.y"
-                {
-        (yyval.node) = NULL;
-    }
-#line 1578 "modules/parser/parser.c"
-    break;
-
-  case 12:
-#line 171 "modules/parser/parser.y"
-                      {
-        (yyval.node) = create_ast_node(PARAM_LIST_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 2);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-1].node);
-                (yyval.node)->children[1] = create_ast_node(IDENTIFIER_NODE, 0, strdup((yyvsp[0].string_val)));
-                (yyval.node)->child_count = 2;
-            }
-        }
-    }
-#line 1594 "modules/parser/parser.c"
-    break;
-
-  case 13:
-#line 182 "modules/parser/parser.y"
-                                       {
-        if ((yyvsp[-3].node) && (yyvsp[-1].node) && (yyvsp[0].string_val)) {
-            if ((yyvsp[-3].node)->children) {
-                (yyvsp[-3].node)->children = realloc((yyvsp[-3].node)->children, sizeof(ASTNode*) * ((yyvsp[-3].node)->child_count + 2));
-                if ((yyvsp[-3].node)->children) {
-                    (yyvsp[-3].node)->children[(yyvsp[-3].node)->child_count] = (yyvsp[-1].node);
-                    (yyvsp[-3].node)->children[(yyvsp[-3].node)->child_count + 1] = create_ast_node(IDENTIFIER_NODE, 0, strdup((yyvsp[0].string_val)));
-                    (yyvsp[-3].node)->child_count += 2;
-                }
-            }
-        }
-        (yyval.node) = (yyvsp[-3].node);
-    }
-#line 1612 "modules/parser/parser.c"
-    break;
-
-  case 14:
-#line 198 "modules/parser/parser.y"
-                                 {
-        (yyval.node) = create_ast_node(BLOCK_NODE, 0, NULL);
-        if ((yyval.node)) {
-            if ((yyvsp[-1].node)) {
-                (yyval.node)->children = malloc(sizeof(ASTNode*));
-                if ((yyval.node)->children) {
-                    (yyval.node)->children[0] = (yyvsp[-1].node);
-                    (yyval.node)->child_count = 1;
-                }
-            } else {
-                (yyval.node)->children = NULL;
-                (yyval.node)->child_count = 0;
-            }
-        }
-    }
-#line 1632 "modules/parser/parser.c"
-    break;
-
-  case 15:
-#line 216 "modules/parser/parser.y"
-                {
-        (yyval.node) = NULL;
-    }
-#line 1640 "modules/parser/parser.c"
-    break;
-
-  case 16:
-#line 219 "modules/parser/parser.y"
-                               {
-        if ((yyvsp[-1].node) && (yyvsp[0].node)) {
-            if ((yyvsp[-1].node)->children) {
-                (yyvsp[-1].node)->children = realloc((yyvsp[-1].node)->children, sizeof(ASTNode*) * ((yyvsp[-1].node)->child_count + 1));
-                if ((yyvsp[-1].node)->children) {
-                    (yyvsp[-1].node)->children[(yyvsp[-1].node)->child_count] = (yyvsp[0].node);
-                    (yyvsp[-1].node)->child_count++;
-                }
-            } else {
-                (yyvsp[-1].node)->children = malloc(sizeof(ASTNode*));
-                if ((yyvsp[-1].node)->children) {
-                    (yyvsp[-1].node)->children[0] = (yyvsp[0].node);
-                    (yyvsp[-1].node)->child_count = 1;
-                }
-            }
-        }
-        (yyval.node) = (yyvsp[-1].node);
-    }
-#line 1663 "modules/parser/parser.c"
-    break;
-
-  case 17:
-#line 240 "modules/parser/parser.y"
-            {
-        (yyval.node) = create_ast_node(TYPE_NODE, 0, strdup("integer"));
-    }
-#line 1671 "modules/parser/parser.c"
-    break;
-
-  case 18:
-#line 243 "modules/parser/parser.y"
-           {
-        (yyval.node) = create_ast_node(TYPE_NODE, 0, strdup("bool"));
-    }
-#line 1679 "modules/parser/parser.c"
-    break;
-
-  case 19:
-#line 249 "modules/parser/parser.y"
-             {
-        (yyval.node) = (yyvsp[0].node);
-    }
-#line 1687 "modules/parser/parser.c"
-    break;
-
-  case 20:
-#line 252 "modules/parser/parser.y"
-                                       {
-        (yyval.node) = create_ast_node(ASSIGN_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 2);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = create_ast_node(IDENTIFIER_NODE, 0, strdup((yyvsp[-3].string_val)));
-                (yyval.node)->children[1] = (yyvsp[-1].node);
-                (yyval.node)->child_count = 2;
-            }
-        }
-    }
-#line 1703 "modules/parser/parser.c"
-    break;
-
-  case 21:
-#line 263 "modules/parser/parser.y"
-                            {
-        (yyval.node) = (yyvsp[-1].node);
-    }
-#line 1711 "modules/parser/parser.c"
-    break;
-
-  case 22:
-#line 266 "modules/parser/parser.y"
-                                   {
-        (yyval.node) = create_ast_node(IF_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 3);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-3].node);
-                (yyval.node)->children[1] = (yyvsp[-1].node);
-                (yyval.node)->children[2] = (yyvsp[0].node);
-                (yyval.node)->child_count = 3;
-            }
-        }
-    }
-#line 1728 "modules/parser/parser.c"
-    break;
-
-  case 23:
-#line 278 "modules/parser/parser.y"
-                       {
-        (yyval.node) = create_ast_node(WHILE_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 2);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-1].node);
-                (yyval.node)->children[1] = (yyvsp[0].node);
-                (yyval.node)->child_count = 2;
-            }
-        }
-    }
-#line 1744 "modules/parser/parser.c"
-    break;
-
-  case 24:
-#line 289 "modules/parser/parser.y"
-                                {
-        (yyval.node) = create_ast_node(RETURN_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = (yyvsp[-1].node) ? malloc(sizeof(ASTNode*)) : NULL;
-            if ((yyval.node)->children && (yyvsp[-1].node)) {
-                (yyval.node)->children[0] = (yyvsp[-1].node);
-                (yyval.node)->child_count = 1;
-            }
-        }
-    }
-#line 1759 "modules/parser/parser.c"
-    break;
-
-  case 25:
-#line 299 "modules/parser/parser.y"
-            {
-        (yyval.node) = (yyvsp[0].node);
-    }
-#line 1767 "modules/parser/parser.c"
-    break;
-
-  case 26:
-#line 305 "modules/parser/parser.y"
-                {
-        (yyval.node) = NULL;
-    }
-#line 1775 "modules/parser/parser.c"
-    break;
-
-  case 27:
-#line 308 "modules/parser/parser.y"
-                 {
-        (yyval.node) = (yyvsp[0].node);
-    }
-#line 1783 "modules/parser/parser.c"
-    break;
-
-  case 28:
-#line 314 "modules/parser/parser.y"
-                {
-        (yyval.node) = NULL;
-    }
-#line 1791 "modules/parser/parser.c"
-    break;
-
-  case 29:
-#line 317 "modules/parser/parser.y"
-           {
-        (yyval.node) = (yyvsp[0].node);
-    }
-#line 1799 "modules/parser/parser.c"
-    break;
-
-  case 30:
-#line 323 "modules/parser/parser.y"
-                                      {
-        (yyval.node) = create_ast_node(METHOD_CALL_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 2);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = create_ast_node(IDENTIFIER_NODE, 0, strdup((yyvsp[-3].string_val)));
-                (yyval.node)->children[1] = (yyvsp[-1].node);
-                (yyval.node)->child_count = 2;
-            }
-        }
-    }
-#line 1815 "modules/parser/parser.c"
-    break;
-
-  case 31:
-#line 337 "modules/parser/parser.y"
-                {
-        (yyval.node) = NULL;
-    }
-#line 1823 "modules/parser/parser.c"
-    break;
-
-  case 32:
-#line 340 "modules/parser/parser.y"
-           {
-        (yyval.node) = create_ast_node(ARG_LIST_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*));
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[0].node);
-                (yyval.node)->child_count = 1;
-            }
-        }
-    }
-#line 1838 "modules/parser/parser.c"
-    break;
-
-  case 33:
-#line 350 "modules/parser/parser.y"
-                          {
-        if ((yyvsp[-2].node) && (yyvsp[0].node)) {
-            if ((yyvsp[-2].node)->children) {
-                (yyvsp[-2].node)->children = realloc((yyvsp[-2].node)->children, sizeof(ASTNode*) * ((yyvsp[-2].node)->child_count + 1));
-                if ((yyvsp[-2].node)->children) {
-                    (yyvsp[-2].node)->children[(yyvsp[-2].node)->child_count] = (yyvsp[0].node);
-                    (yyvsp[-2].node)->child_count++;
-                }
-            }
-        }
-        (yyval.node) = (yyvsp[-2].node);
-    }
-#line 1855 "modules/parser/parser.c"
-    break;
-
-  case 34:
-#line 365 "modules/parser/parser.y"
-            {
-        (yyval.node) = (yyvsp[0].node);
-    }
-#line 1863 "modules/parser/parser.c"
-    break;
-
-  case 35:
-#line 368 "modules/parser/parser.y"
-                 {
-        (yyval.node) = create_ast_node(IDENTIFIER_NODE, 0, strdup((yyvsp[0].string_val)));
-    }
-#line 1871 "modules/parser/parser.c"
-    break;
-
-  case 36:
-#line 371 "modules/parser/parser.y"
-                  {
-        (yyval.node) = (yyvsp[0].node);
-    }
-#line 1879 "modules/parser/parser.c"
-    break;
-
-  case 37:
-#line 374 "modules/parser/parser.y"
-                     {
-        (yyval.node) = create_ast_node(BINARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 3);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);
-                (yyval.node)->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("+"));
-                (yyval.node)->children[2] = (yyvsp[0].node);
-                (yyval.node)->child_count = 3;
-            }
-        }
-    }
-#line 1896 "modules/parser/parser.c"
-    break;
-
-  case 38:
-#line 386 "modules/parser/parser.y"
-                      {
-        (yyval.node) = create_ast_node(BINARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 3);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);
-                (yyval.node)->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("-"));
-                (yyval.node)->children[2] = (yyvsp[0].node);
-                (yyval.node)->child_count = 3;
-            }
-        }
-    }
-#line 1913 "modules/parser/parser.c"
-    break;
-
-  case 39:
-#line 398 "modules/parser/parser.y"
-                         {
-        (yyval.node) = create_ast_node(BINARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 3);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);
-                (yyval.node)->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("*"));
-                (yyval.node)->children[2] = (yyvsp[0].node);
-                (yyval.node)->child_count = 3;
-            }
-        }
-    }
-#line 1930 "modules/parser/parser.c"
-    break;
-
-  case 40:
-#line 410 "modules/parser/parser.y"
-                       {
-        (yyval.node) = create_ast_node(BINARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 3);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);
-                (yyval.node)->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("/"));
-                (yyval.node)->children[2] = (yyvsp[0].node);
-                (yyval.node)->child_count = 3;
-            }
-        }
-    }
-#line 1947 "modules/parser/parser.c"
-    break;
-
-  case 41:
-#line 422 "modules/parser/parser.y"
-                       {
-        (yyval.node) = create_ast_node(BINARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 3);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);
-                (yyval.node)->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("%"));
-                (yyval.node)->children[2] = (yyvsp[0].node);
-                (yyval.node)->child_count = 3;
-            }
-        }
-    }
-#line 1964 "modules/parser/parser.c"
-    break;
-
-  case 42:
-#line 434 "modules/parser/parser.y"
-                     {
-        (yyval.node) = create_ast_node(BINARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 3);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);
-                (yyval.node)->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("<"));
-                (yyval.node)->children[2] = (yyvsp[0].node);
-                (yyval.node)->child_count = 3;
-            }
-        }
-    }
-#line 1981 "modules/parser/parser.c"
-    break;
-
-  case 43:
-#line 446 "modules/parser/parser.y"
-                        {
-        (yyval.node) = create_ast_node(BINARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 3);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);
-                (yyval.node)->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup(">"));
-                (yyval.node)->children[2] = (yyvsp[0].node);
-                (yyval.node)->child_count = 3;
-            }
-        }
-    }
-#line 1998 "modules/parser/parser.c"
-    break;
-
-  case 44:
-#line 458 "modules/parser/parser.y"
-                      {
-        (yyval.node) = create_ast_node(BINARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 3);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);
-                (yyval.node)->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("=="));
-                (yyval.node)->children[2] = (yyvsp[0].node);
-                (yyval.node)->child_count = 3;
-            }
-        }
-    }
-#line 2015 "modules/parser/parser.c"
-    break;
-
-  case 45:
-#line 470 "modules/parser/parser.y"
-                    {
-        (yyval.node) = create_ast_node(BINARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 3);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);
-                (yyval.node)->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("&&"));
-                (yyval.node)->children[2] = (yyvsp[0].node);
-                (yyval.node)->child_count = 3;
-            }
-        }
-    }
-#line 2032 "modules/parser/parser.c"
-    break;
-
-  case 46:
-#line 482 "modules/parser/parser.y"
-                   {
-        (yyval.node) = create_ast_node(BINARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 3);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = (yyvsp[-2].node);
-                (yyval.node)->children[1] = create_ast_node(OPERATOR_NODE, 0, strdup("||"));
-                (yyval.node)->children[2] = (yyvsp[0].node);
-                (yyval.node)->child_count = 3;
-            }
-        }
-    }
-#line 2049 "modules/parser/parser.c"
-    break;
-
-  case 47:
-#line 494 "modules/parser/parser.y"
-                              {
-        (yyval.node) = create_ast_node(UNARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 2);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = create_ast_node(OPERATOR_NODE, 0, strdup("-"));
-                (yyval.node)->children[1] = (yyvsp[0].node);
-                (yyval.node)->child_count = 2;
-            }
-        }
-    }
-#line 2065 "modules/parser/parser.c"
-    break;
-
-  case 48:
-#line 505 "modules/parser/parser.y"
-               {
-        (yyval.node) = create_ast_node(UNARY_OP_NODE, 0, NULL);
-        if ((yyval.node)) {
-            (yyval.node)->children = malloc(sizeof(ASTNode*) * 2);
-            if ((yyval.node)->children) {
-                (yyval.node)->children[0] = create_ast_node(OPERATOR_NODE, 0, strdup("!"));
-                (yyval.node)->children[1] = (yyvsp[0].node);
-                (yyval.node)->child_count = 2;
-            }
-        }
-    }
-#line 2081 "modules/parser/parser.c"
-    break;
-
-  case 49:
-#line 516 "modules/parser/parser.y"
-                         {
-        (yyval.node) = (yyvsp[-1].node);
-    }
-#line 2089 "modules/parser/parser.c"
-    break;
-
-  case 50:
-#line 523 "modules/parser/parser.y"
-                    {
-        (yyval.node) = create_ast_node(INTEGER_LITERAL_NODE, (yyvsp[0].int_val), NULL);
-    }
-#line 2097 "modules/parser/parser.c"
-    break;
-
-  case 51:
-#line 526 "modules/parser/parser.y"
-           {
-        (yyval.node) = create_ast_node(BOOLEAN_LITERAL_NODE, 1, NULL);
-    }
-#line 2105 "modules/parser/parser.c"
-    break;
-
-  case 52:
-#line 529 "modules/parser/parser.y"
-            {
-        (yyval.node) = create_ast_node(BOOLEAN_LITERAL_NODE, 0, NULL);
-    }
-#line 2113 "modules/parser/parser.c"
+#line 1361 "modules/parser/parser.c"
     break;
 
 
-#line 2117 "modules/parser/parser.c"
+#line 1365 "modules/parser/parser.c"
 
       default: break;
     }
@@ -2345,7 +1593,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 534 "modules/parser/parser.y"
+#line 47 "modules/parser/parser_simple_final.y"
 
 
 void yyerror(const char* s) {

@@ -53,37 +53,35 @@ extern int yydebug;
     IDENTIFIER = 259,
     PROGRAM = 260,
     BOOL = 261,
-    DO = 262,
-    ELSE = 263,
-    EXTERN = 264,
-    FALSE = 265,
-    IF = 266,
-    INTEGER = 267,
-    RETURN = 268,
-    THEN = 269,
-    TRUE = 270,
-    VOID = 271,
-    WHILE = 272,
-    PLUS = 273,
-    MINUS = 274,
-    MULTIPLY = 275,
-    DIVIDE = 276,
-    MODULO = 277,
-    LESS = 278,
-    GREATER = 279,
-    EQUAL = 280,
-    AND = 281,
-    OR = 282,
-    NOT = 283,
-    ASSIGN = 284,
-    LPAREN = 285,
-    RPAREN = 286,
-    LBRACE = 287,
-    RBRACE = 288,
-    SEMICOLON = 289,
-    COMMA = 290,
-    ERROR = 291,
-    UMINUS = 292
+    ELSE = 262,
+    EXTERN = 263,
+    FALSE = 264,
+    IF = 265,
+    INTEGER = 266,
+    RETURN = 267,
+    THEN = 268,
+    TRUE = 269,
+    VOID = 270,
+    WHILE = 271,
+    PLUS = 272,
+    MINUS = 273,
+    MULTIPLY = 274,
+    DIVIDE = 275,
+    MODULO = 276,
+    LESS = 277,
+    GREATER = 278,
+    EQUAL = 279,
+    AND = 280,
+    OR = 281,
+    NOT = 282,
+    ASSIGN = 283,
+    LPAREN = 284,
+    RPAREN = 285,
+    LBRACE = 286,
+    RBRACE = 287,
+    SEMICOLON = 288,
+    COMMA = 289,
+    ERROR = 290
   };
 #endif
 
@@ -91,13 +89,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 21 "modules/parser/parser.y"
+#line 18 "modules/parser/parser_simple_final.y"
 
     int int_val;
     char* string_val;
     ASTNode* node;
 
-#line 101 "modules/parser/parser.h"
+#line 99 "modules/parser/parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
