@@ -7,7 +7,7 @@ TARGET = c-tds
 
 # Archivos fuente
 LEX_FILE = modules/lexer/lexer.l
-YACC_FILE = modules/parser/parser.y
+YACC_FILE = modules/parser/parser_simple_final.y
 C_SOURCES = modules/lexer/lexer.c modules/parser/parser.c modules/ast/ast.c modules/common/symbol_table.c modules/semantic/semantic.c modules/intermediate/intermediate.c modules/assembly/assembly.c src/main.c
 
 # Archivos generados
