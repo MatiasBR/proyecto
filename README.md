@@ -152,3 +152,20 @@ make install-deps
 # Limpiar y compilar
 ./compile.sh archivo.ctds -clean
 ```
+
+
+## Estructura de Ramas del Proyecto
+
+Este proyecto sigue el cronograma establecido en las especificaciones TDS25. Cada etapa tiene su propia rama:
+
+### 🌿 Ramas por Etapa de Entrega
+
+| Rama | Etapa | Fecha de Entrega | Estado |
+|------|-------|------------------|--------|
+| `main` | Rama principal estable | - | ✅ |
+| `entrega-lexico-sintactico-ast` | **Etapa 1**: Análizador Léxico y Sintáctico | 15 de Septiembre | ✅ Completada |
+| `entrega-parser-expandido-24sept` | **Etapa 1**: Parser Expandido | 24 de Septiembre | ✅ Completada |
+| `entrega-semantico-codigo-intermedio-01oct` | **Etapa 2 y 3**: Análizador Semántico + Código Intermedio | 01 de Octubre | ✅ Completada |
+| `entrega-codigo-objeto-27oct` | **Etapa 4**: Generador Código Objeto | 27 de Octubre | 🔄 En desarrollo |
+| `entrega-optimizador-12nov` | **Etapa 5**: Optimizador | 12 de Noviembre | 📋 Pendiente |
+| `entrega-final-15nov` | **Etapa 6**: Entrega Final | 15 de Noviembre | 📋 Pendiente |
