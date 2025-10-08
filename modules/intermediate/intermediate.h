@@ -52,5 +52,8 @@ void free_ir_code(IRCode* ir_code);
 // Funciones auxiliares
 char* generate_temp();
 IRInstruction* create_ir_instruction(IRInstructionType type, char* result, char* arg1, char* arg2, char* label);
+void add_instruction(IRCode* ir_code, IRInstruction* instr);
+void generate_program_ir(ASTNode* node, IRCode* ir_code);
+
 
 #endif

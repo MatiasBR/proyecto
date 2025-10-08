@@ -20,11 +20,8 @@ IRCode* generate_intermediate_code(ASTNode* root) {
     ir_code->instructions = NULL;
     ir_code->temp_count = 0;
     
-    // Crear una instrucción de ejemplo
-    IRInstruction* instr = create_ir_instruction(IR_ASSIGN, "t1", "5", NULL, NULL);
-    if (instr) {
-        ir_code->instructions = instr;
-    }
+    // Generar código intermedio basado en el AST
+    generate_program_ir(root, ir_code);
     
     return ir_code;
 }
@@ -149,4 +146,30 @@ IRInstruction* create_ir_instruction(IRInstructionType type, char* result, char*
     instr->next = NULL;
     
     return instr;
+}
+
+void add_instruction(IRCode* ir_code, IRInstruction* instr) {
+    if (!ir_code || !instr) return;
+    
+    if (!ir_code->instructions) {
+        ir_code->instructions = instr;
+    } else {
+        IRInstruction* current = ir_code->instructions;
+        while (current->next) {
+            current = current->next;
+        }
+        current->next = instr;
+    }
+}
+
+void generate_program_ir(ASTNode* node, IRCode* ir_code) {
+    if (!node || node->type != PROGRAM_NODE) {
+        return;
+    }
+    
+    // Para un programa vacío, generar una instrucción de ejemplo
+    IRInstruction* instr = create_ir_instruction(IR_ASSIGN, "t1", "0", NULL, NULL);
+    if (instr) {
+        add_instruction(ir_code, instr);
+    }
 }
