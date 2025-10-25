@@ -1,3 +1,6 @@
+# Compilador TDS25 - Etapa 4: Generador de Código Objeto
+# Enfocado en generación de assembly x86-64
+
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99 -g -O2
 DEBUG_CFLAGS = -Wall -Wextra -std=c99 -g -DDEBUG -O0
@@ -5,10 +8,12 @@ FLEX = flex
 BISON = bison
 TARGET = c-tds
 
-# Archivos fuente
+# Archivos fuente esenciales para Etapa 4
 LEX_FILE = modules/lexer/lexer.l
 YACC_FILE = modules/parser/parser_simple_final.y
-C_SOURCES = modules/lexer/lexer.c modules/parser/parser.c modules/ast/ast.c modules/common/symbol_table.c modules/semantic/semantic.c modules/intermediate/intermediate.c modules/assembly/assembly.c src/main.c
+C_SOURCES = modules/lexer/lexer.c modules/parser/parser.c modules/ast/ast.c \
+            modules/common/symbol_table.c modules/semantic/semantic.c \
+            modules/intermediate/intermediate.c modules/assembly/assembly.c src/main.c
 
 # Archivos generados
 LEX_C = modules/lexer/lexer.c
@@ -23,7 +28,7 @@ OBJECTS = $(C_SOURCES:.c=.o)
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS) -lfl
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
 
 # Generar lexer
 $(LEX_C): $(LEX_FILE)
@@ -49,21 +54,33 @@ modules/assembly/assembly.o: modules/assembly/assembly.c modules/assembly/assemb
 
 clean:
 	rm -f $(TARGET) $(OBJECTS) $(LEX_C) $(YACC_C) $(YACC_H)
-	rm -f *.lex *.sint *.sem *.ci *.ass *.opt *.out
+	rm -f *.lex *.sint *.sem *.ci *.ass *.opt *.out *.o
 
 test: $(TARGET)
-	@echo "Running tests..."
-	@./test_runner.sh
+	@echo "Testing Etapa 4 - Generador de Código Objeto..."
+	@echo "Compilando archivos de prueba..."
+	@./c-tds -debug -target assembly test.ctds
+	@./c-tds -debug -target assembly test_simple.ctds
 
 install-deps:
-	@echo "Installing dependencies..."
-	@sudo apt-get update
-	@sudo apt-get install -y flex bison gcc
+	@echo "Installing dependencies for Etapa 4..."
+	@if command -v apt-get >/dev/null 2>&1; then \
+		sudo apt-get update && sudo apt-get install -y flex bison gcc binutils; \
+	elif command -v yum >/dev/null 2>&1; then \
+		sudo yum install -y flex bison gcc binutils; \
+	elif command -v brew >/dev/null 2>&1; then \
+		brew install flex bison gcc binutils; \
+	else \
+		echo "Please install flex, bison, gcc, and binutils manually"; \
+	fi
 
 .PHONY: help
 help:
+	@echo "Compilador TDS25 - Etapa 4: Generador de Código Objeto"
 	@echo "Available targets:"
 	@echo "  all        - Build the compiler"
 	@echo "  clean      - Remove generated files"
-	@echo "  test       - Run tests"
+	@echo "  test       - Test assembly generation"
 	@echo "  install-deps - Install system dependencies"
+	@echo ""
+	@echo "Usage: ./c-tds -debug -target assembly archivo.ctds"
