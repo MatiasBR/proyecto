@@ -12,11 +12,13 @@ El generador de código assembly se implementó en el módulo `assembly.c`. La i
 ## Decisiones de Diseño
 
 ### Arquitectura
+
 - Variables almacenadas en stack frame con offsets de 8 bytes
 - Registros rax, rbx, rcx, rdx para operaciones temporales
 - Convención de llamadas x86-64 estándar
 
 ### Compatibilidad
+
 - Soporte para macOS y Linux
 - Detección automática de syscalls
 - Sintaxis assembly compatible con ambos sistemas
@@ -24,6 +26,7 @@ El generador de código assembly se implementó en el módulo `assembly.c`. La i
 ## Estructura del Código
 
 ### AssemblyContext
+
 ```c
 typedef struct {
     Variable* variables;
@@ -35,18 +38,23 @@ typedef struct {
 ```
 
 ### Gestión de Variables
-- Stack frame con offsets incrementales
-- Registro de variables y temporales
-- Gestión automática de memoria
+
+Stack frame con offsets incrementales
+
+Registro de variables y temporales
+
+Gestión automática de memoria
 
 ## Algoritmos
 
 ### Generación de Assembly
+
 - Mapeo de instrucciones IR a código assembly
 - Switch-case para diferentes tipos de operaciones
 - Generación de código x86-64
 
 ### Gestión de Variables
+
 - Registro de variables en contexto
 - Cálculo automático de offsets
 - Gestión de temporales
@@ -54,11 +62,13 @@ typedef struct {
 ## Limitaciones
 
 ### Parser
+
 - Solo acepta programas vacíos (`program { }`)
 - No maneja declaraciones de variables complejas
 - Limitado para pruebas avanzadas
 
 ### Optimizaciones
+
 - No se implementaron optimizaciones de código
 - Código assembly básico sin optimizaciones
 - Enfoque en corrección sobre eficiencia
@@ -66,11 +76,13 @@ typedef struct {
 ## Testing
 
 ### Casos de Prueba
+
 - Programas básicos que funcionan con el parser actual
 - Verificación de todas las opciones de línea de comandos
 - Testing de generación de assembly
 
 ### Resultados
+
 - Compilación exitosa hasta assembly x86-64
 - Generación de ejecutables funcionales
 - Archivos de salida correctos (.ass, .out, .ci, .sem, .sint)

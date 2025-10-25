@@ -3,8 +3,9 @@
 Compilador para el lenguaje TDS25 implementado en C. Incluye análisis léxico, sintáctico, semántico y generación de código assembly x86-64.
 
 ## Estado Actual
+
 - Análisis léxico y sintáctico
-- Análisis semántico  
+- Análisis semántico
 - Generación de código intermedio
 - Generación de código assembly x86-64
 
@@ -38,31 +39,37 @@ proyecto/
 ## Módulos
 
 ### 1. AST (Abstract Syntax Tree)
+
 - **Ubicación**: `modules/ast/`
 - **Propósito**: Definición y manipulación del árbol de sintaxis abstracta
 - **Archivos**: `ast.h`, `ast.c`
 
 ### 2. Lexer (Análisis Léxico)
+
 - **Ubicación**: `modules/lexer/`
 - **Propósito**: Tokenización del código fuente
 - **Archivos**: `lexer.l` (especificación Flex)
 
 ### 3. Parser (Análisis Sintáctico)
+
 - **Ubicación**: `modules/parser/`
 - **Propósito**: Análisis sintáctico y construcción del AST
 - **Archivos**: `parser.y` (especificación Bison)
 
 ### 4. Semantic (Análisis Semántico)
+
 - **Ubicación**: `modules/semantic/`
 - **Propósito**: Verificación semántica y tabla de símbolos
 - **Archivos**: `semantic.h`, `semantic.c`
 
 ### 5. Intermediate (Código Intermedio)
+
 - **Ubicación**: `modules/intermediate/`
 - **Propósito**: Generación de código intermedio (IR)
 - **Archivos**: `intermediate.h`, `intermediate.c`
 
 ### 6. Common (Utilidades)
+
 - **Ubicación**: `modules/common/`
 - **Propósito**: Funciones comunes como tabla de símbolos
 - **Archivos**: `symbol_table.h`, `symbol_table.c`
@@ -127,7 +134,6 @@ echo "program { }" > test.ctds
 ls -la test.*
 ```
 
-
 ## Compilación
 
 ```bash
@@ -140,5 +146,3 @@ make clean
 # Instalar dependencias
 make install-deps
 ```
-
-
