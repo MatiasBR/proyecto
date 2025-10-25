@@ -84,11 +84,10 @@ int main(int argc, char* argv[]) {
     }
     
     if (debug_mode) {
-        printf("Compilando archivo: %s\n", input_file);
-        printf("Etapa objetivo: %s\n", target_stage);
+        printf("Compilando: %s\n", input_file);
+        printf("Etapa: %s\n", target_stage);
     }
     
-    // Etapa 1: Análisis Léxico y Sintáctico
     if (strcmp(target_stage, "scan") == 0 || strcmp(target_stage, "parse") == 0 || 
         strcmp(target_stage, "codinter") == 0 || strcmp(target_stage, "assembly") == 0) {
         
@@ -105,11 +104,7 @@ int main(int argc, char* argv[]) {
         
         if (debug_mode) {
             printf("Análisis sintáctico exitoso\n");
-            // printf("=== Árbol AST ===\n");
-            // print_ast(root, 0);
         }
-        
-        // Guardar salida de análisis sintáctico
         char output_filename[256];
         strcpy(output_filename, input_file);
         char* dot = strrchr(output_filename, '.');
@@ -123,18 +118,13 @@ int main(int argc, char* argv[]) {
         }
     }
     
-    // Etapa 2: Análisis Semántico
     if (strcmp(target_stage, "codinter") == 0 || strcmp(target_stage, "assembly") == 0) {
         
         if (debug_mode) {
             printf("\n=== Análisis Semántico ===\n");
-            printf("DEBUG: root before semantic analysis: %p\n", (void*)root);
         }
         
         int semantic_result = semantic_analysis(root);
-        if (debug_mode) {
-            printf("DEBUG: root after semantic analysis: %p\n", (void*)root);
-        }
         if (semantic_result == 0) {
             fprintf(stderr, "Error en el análisis semántico\n");
             fclose(yyin);
@@ -144,8 +134,6 @@ int main(int argc, char* argv[]) {
         if (debug_mode) {
             printf("Análisis semántico exitoso\n");
         }
-        
-        // Guardar salida de análisis semántico
         char output_filename[256];
         strcpy(output_filename, input_file);
         char* dot = strrchr(output_filename, '.');
@@ -159,23 +147,19 @@ int main(int argc, char* argv[]) {
         }
     }
     
-    // Etapa 3: Generación de Código Intermedio
     if (strcmp(target_stage, "codinter") == 0 || strcmp(target_stage, "assembly") == 0) {
         
         if (debug_mode) {
             printf("\n=== Generación de Código Intermedio ===\n");
         }
         
-        printf("DEBUG: About to call generate_intermediate_code with root=%p\n", (void*)root);
         IRCode* ir_code = generate_intermediate_code(root);
-        printf("DEBUG: generate_intermediate_code returned %p\n", (void*)ir_code);
         if (ir_code) {
             if (debug_mode) {
                 printf("Código intermedio generado:\n");
                 print_ir_code(ir_code);
             }
             
-            // Guardar código intermedio
             char output_filename[256];
             strcpy(output_filename, input_file);
             char* dot = strrchr(output_filename, '.');
@@ -264,14 +248,11 @@ int main(int argc, char* argv[]) {
         }
     }
     
-    // Etapa 4: Generación de Código Assembly
     if (strcmp(target_stage, "assembly") == 0) {
         
         if (debug_mode) {
             printf("\n=== Generación de Código Assembly ===\n");
         }
-        
-        // Generar código intermedio si no se generó antes
         IRCode* ir_code = generate_intermediate_code(root);
         if (!ir_code) {
             fprintf(stderr, "Error: No se pudo generar código intermedio\n");
@@ -279,7 +260,6 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         
-        // Generar archivo assembly
         char output_filename[256];
         strcpy(output_filename, input_file);
         char* dot = strrchr(output_filename, '.');
@@ -298,7 +278,6 @@ int main(int argc, char* argv[]) {
             printf("Código assembly generado exitosamente\n");
         }
         
-        // Generar ejecutable
         char exe_filename[256];
         strcpy(exe_filename, input_file);
         dot = strrchr(exe_filename, '.');
@@ -308,15 +287,13 @@ int main(int argc, char* argv[]) {
         if (output_file) {
             strcpy(exe_filename, output_file);
         }
-        
-        // Compilar assembly a ejecutable
         char compile_cmd[512];
         snprintf(compile_cmd, sizeof(compile_cmd), 
                 "as -o %s.o %s && ld -o %s %s.o", 
                 output_filename, output_filename, exe_filename, output_filename);
         
         if (debug_mode) {
-            printf("Compilando assembly: %s\n", compile_cmd);
+            printf("Compilando: %s\n", compile_cmd);
         }
         
         int compile_result = system(compile_cmd);
@@ -328,8 +305,8 @@ int main(int argc, char* argv[]) {
         }
         
         if (debug_mode) {
-            printf("Archivo assembly generado: %s\n", output_filename);
-            printf("Ejecutable generado: %s\n", exe_filename);
+            printf("Assembly: %s\n", output_filename);
+            printf("Ejecutable: %s\n", exe_filename);
         }
         
         free_ir_code(ir_code);
@@ -338,7 +315,7 @@ int main(int argc, char* argv[]) {
     fclose(yyin);
     
     if (debug_mode) {
-        printf("\nCompilación completada exitosamente\n");
+        printf("\nCompilación exitosa\n");
     }
     
     return 0;
