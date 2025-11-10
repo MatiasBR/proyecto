@@ -13,7 +13,8 @@ LEX_FILE = modules/lexer/lexer.l
 YACC_FILE = modules/parser/parser_simple_final.y
 C_SOURCES = modules/lexer/lexer.c modules/parser/parser.c modules/ast/ast.c \
             modules/common/symbol_table.c modules/semantic/semantic.c \
-            modules/intermediate/intermediate.c modules/assembly/assembly.c src/main.c
+            modules/intermediate/intermediate.c modules/assembly/assembly.c \
+            modules/optimizer/optimizer.c src/main.c
 
 # Archivos generados
 LEX_C = modules/lexer/lexer.c
@@ -51,6 +52,7 @@ modules/common/symbol_table.o: modules/common/symbol_table.c modules/common/symb
 modules/semantic/semantic.o: modules/semantic/semantic.c modules/semantic/semantic.h
 modules/intermediate/intermediate.o: modules/intermediate/intermediate.c modules/intermediate/intermediate.h
 modules/assembly/assembly.o: modules/assembly/assembly.c modules/assembly/assembly.h
+modules/optimizer/optimizer.o: modules/optimizer/optimizer.c modules/optimizer/optimizer.h
 
 clean:
 	rm -f $(TARGET) $(OBJECTS) $(LEX_C) $(YACC_C) $(YACC_H)
