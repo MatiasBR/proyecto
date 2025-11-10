@@ -1,0 +1,7 @@
+program {
+    void main() {
+        integer x = 5;
+        integer y = 10;
+        integer z = x + y;
+    }
+}
