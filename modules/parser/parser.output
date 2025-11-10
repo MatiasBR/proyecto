@@ -1,89 +1,172 @@
 Terminals which are not used
 
-   INTEGER_LITERAL
-   IDENTIFIER
-   BOOL
-   ELSE
-   EXTERN
-   FALSE
-   IF
-   INTEGER
-   RETURN
-   THEN
-   TRUE
-   VOID
-   WHILE
-   PLUS
-   MINUS
-   MULTIPLY
-   DIVIDE
-   MODULO
-   LESS
-   GREATER
-   EQUAL
-   AND
-   OR
-   NOT
-   ASSIGN
-   LPAREN
-   RPAREN
-   SEMICOLON
-   COMMA
    ERROR
+
+
+State 5 conflicts: 2 shift/reduce
+State 61 conflicts: 10 shift/reduce
 
 
 Grammar
 
     0 $accept: program $end
 
-    1 program: PROGRAM LBRACE RBRACE
+    1 program: PROGRAM LBRACE var_decl_list method_decl_list RBRACE
+
+    2 var_decl_list: /* empty */
+    3              | var_decl_list var_decl
+
+    4 var_decl: type IDENTIFIER ASSIGN expr SEMICOLON
+
+    5 method_decl_list: /* empty */
+    6                 | method_decl_list method_decl
+
+    7 method_decl: type IDENTIFIER LPAREN param_list RPAREN block
+    8            | VOID IDENTIFIER LPAREN param_list RPAREN block
+    9            | type IDENTIFIER LPAREN param_list RPAREN EXTERN SEMICOLON
+   10            | VOID IDENTIFIER LPAREN param_list RPAREN EXTERN SEMICOLON
+
+   11 param_list: /* empty */
+   12           | param
+   13           | param_list COMMA param
+
+   14 param: type IDENTIFIER
+
+   15 type: INTEGER
+   16     | BOOL
+
+   17 block: LBRACE var_decl_list statement_list RBRACE
+
+   18 statement_list: /* empty */
+   19               | statement_list statement
+
+   20 statement: IDENTIFIER ASSIGN expr SEMICOLON
+   21          | method_call SEMICOLON
+   22          | IF LPAREN expr RPAREN THEN block ELSE block
+   23          | WHILE expr block
+   24          | RETURN expr SEMICOLON
+   25          | RETURN SEMICOLON
+   26          | block
+
+   27 method_call: IDENTIFIER LPAREN arg_list RPAREN
+
+   28 arg_list: /* empty */
+   29         | expr
+   30         | arg_list COMMA expr
+
+   31 expr: IDENTIFIER
+   32     | method_call
+   33     | literal
+   34     | expr bin_op expr
+   35     | MINUS expr
+   36     | NOT expr
+   37     | LPAREN expr RPAREN
+
+   38 bin_op: arith_op
+   39       | rel_op
+   40       | cond_op
+
+   41 arith_op: PLUS
+   42         | MINUS
+   43         | MULTIPLY
+   44         | DIVIDE
+   45         | MODULO
+
+   46 rel_op: LESS
+   47       | GREATER
+   48       | EQUAL
+
+   49 cond_op: AND
+   50        | OR
+
+   51 literal: INTEGER_LITERAL
+   52        | TRUE
+   53        | FALSE
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-INTEGER_LITERAL (258)
-IDENTIFIER (259)
+INTEGER_LITERAL (258) 51
+IDENTIFIER (259) 4 7 8 9 10 14 20 27 31
 PROGRAM (260) 1
-BOOL (261)
-ELSE (262)
-EXTERN (263)
-FALSE (264)
-IF (265)
-INTEGER (266)
-RETURN (267)
-THEN (268)
-TRUE (269)
-VOID (270)
-WHILE (271)
-PLUS (272)
-MINUS (273)
-MULTIPLY (274)
-DIVIDE (275)
-MODULO (276)
-LESS (277)
-GREATER (278)
-EQUAL (279)
-AND (280)
-OR (281)
-NOT (282)
-ASSIGN (283)
-LPAREN (284)
-RPAREN (285)
-LBRACE (286) 1
-RBRACE (287) 1
-SEMICOLON (288)
-COMMA (289)
+BOOL (261) 16
+ELSE (262) 22
+EXTERN (263) 9 10
+FALSE (264) 53
+IF (265) 22
+INTEGER (266) 15
+RETURN (267) 24 25
+THEN (268) 22
+TRUE (269) 52
+VOID (270) 8 10
+WHILE (271) 23
+PLUS (272) 41
+MINUS (273) 35 42
+MULTIPLY (274) 43
+DIVIDE (275) 44
+MODULO (276) 45
+LESS (277) 46
+GREATER (278) 47
+EQUAL (279) 48
+AND (280) 49
+OR (281) 50
+NOT (282) 36
+ASSIGN (283) 4 20
+LPAREN (284) 7 8 9 10 22 27 37
+RPAREN (285) 7 8 9 10 22 27 37
+LBRACE (286) 1 17
+RBRACE (287) 1 17
+SEMICOLON (288) 4 9 10 20 21 24 25
+COMMA (289) 13 30
 ERROR (290)
+UMINUS (291)
 
 
 Nonterminals, with rules where they appear
 
-$accept (36)
+$accept (37)
     on left: 0
-program (37)
+program (38)
     on left: 1, on right: 0
+var_decl_list (39)
+    on left: 2 3, on right: 1 3 17
+var_decl (40)
+    on left: 4, on right: 3
+method_decl_list (41)
+    on left: 5 6, on right: 1 6
+method_decl (42)
+    on left: 7 8 9 10, on right: 6
+param_list (43)
+    on left: 11 12 13, on right: 7 8 9 10 13
+param (44)
+    on left: 14, on right: 12 13
+type (45)
+    on left: 15 16, on right: 4 7 9 14
+block (46)
+    on left: 17, on right: 7 8 22 23 26
+statement_list (47)
+    on left: 18 19, on right: 17 19
+statement (48)
+    on left: 20 21 22 23 24 25 26, on right: 19
+method_call (49)
+    on left: 27, on right: 21 32
+arg_list (50)
+    on left: 28 29 30, on right: 27 30
+expr (51)
+    on left: 31 32 33 34 35 36 37, on right: 4 20 22 23 24 29 30 34
+    35 36 37
+bin_op (52)
+    on left: 38 39 40, on right: 34
+arith_op (53)
+    on left: 41 42 43 44 45, on right: 38
+rel_op (54)
+    on left: 46 47 48, on right: 39
+cond_op (55)
+    on left: 49 50, on right: 40
+literal (56)
+    on left: 51 52 53, on right: 33
 
 
 state 0
@@ -97,7 +180,7 @@ state 0
 
 state 1
 
-    1 program: PROGRAM . LBRACE RBRACE
+    1 program: PROGRAM . LBRACE var_decl_list method_decl_list RBRACE
 
     LBRACE  shift, and go to state 3
 
@@ -111,9 +194,11 @@ state 2
 
 state 3
 
-    1 program: PROGRAM LBRACE . RBRACE
+    1 program: PROGRAM LBRACE . var_decl_list method_decl_list RBRACE
 
-    RBRACE  shift, and go to state 5
+    $default  reduce using rule 2 (var_decl_list)
+
+    var_decl_list  go to state 5
 
 
 state 4
@@ -125,6 +210,1028 @@ state 4
 
 state 5
 
-    1 program: PROGRAM LBRACE RBRACE .
+    1 program: PROGRAM LBRACE var_decl_list . method_decl_list RBRACE
+    3 var_decl_list: var_decl_list . var_decl
+
+    BOOL     shift, and go to state 6
+    INTEGER  shift, and go to state 7
+
+    BOOL      [reduce using rule 5 (method_decl_list)]
+    INTEGER   [reduce using rule 5 (method_decl_list)]
+    $default  reduce using rule 5 (method_decl_list)
+
+    var_decl          go to state 8
+    method_decl_list  go to state 9
+    type              go to state 10
+
+
+state 6
+
+   16 type: BOOL .
+
+    $default  reduce using rule 16 (type)
+
+
+state 7
+
+   15 type: INTEGER .
+
+    $default  reduce using rule 15 (type)
+
+
+state 8
+
+    3 var_decl_list: var_decl_list var_decl .
+
+    $default  reduce using rule 3 (var_decl_list)
+
+
+state 9
+
+    1 program: PROGRAM LBRACE var_decl_list method_decl_list . RBRACE
+    6 method_decl_list: method_decl_list . method_decl
+
+    BOOL     shift, and go to state 6
+    INTEGER  shift, and go to state 7
+    VOID     shift, and go to state 11
+    RBRACE   shift, and go to state 12
+
+    method_decl  go to state 13
+    type         go to state 14
+
+
+state 10
+
+    4 var_decl: type . IDENTIFIER ASSIGN expr SEMICOLON
+
+    IDENTIFIER  shift, and go to state 15
+
+
+state 11
+
+    8 method_decl: VOID . IDENTIFIER LPAREN param_list RPAREN block
+   10            | VOID . IDENTIFIER LPAREN param_list RPAREN EXTERN SEMICOLON
+
+    IDENTIFIER  shift, and go to state 16
+
+
+state 12
+
+    1 program: PROGRAM LBRACE var_decl_list method_decl_list RBRACE .
 
     $default  reduce using rule 1 (program)
+
+
+state 13
+
+    6 method_decl_list: method_decl_list method_decl .
+
+    $default  reduce using rule 6 (method_decl_list)
+
+
+state 14
+
+    7 method_decl: type . IDENTIFIER LPAREN param_list RPAREN block
+    9            | type . IDENTIFIER LPAREN param_list RPAREN EXTERN SEMICOLON
+
+    IDENTIFIER  shift, and go to state 17
+
+
+state 15
+
+    4 var_decl: type IDENTIFIER . ASSIGN expr SEMICOLON
+
+    ASSIGN  shift, and go to state 18
+
+
+state 16
+
+    8 method_decl: VOID IDENTIFIER . LPAREN param_list RPAREN block
+   10            | VOID IDENTIFIER . LPAREN param_list RPAREN EXTERN SEMICOLON
+
+    LPAREN  shift, and go to state 19
+
+
+state 17
+
+    7 method_decl: type IDENTIFIER . LPAREN param_list RPAREN block
+    9            | type IDENTIFIER . LPAREN param_list RPAREN EXTERN SEMICOLON
+
+    LPAREN  shift, and go to state 20
+
+
+state 18
+
+    4 var_decl: type IDENTIFIER ASSIGN . expr SEMICOLON
+
+    INTEGER_LITERAL  shift, and go to state 21
+    IDENTIFIER       shift, and go to state 22
+    FALSE            shift, and go to state 23
+    TRUE             shift, and go to state 24
+    MINUS            shift, and go to state 25
+    NOT              shift, and go to state 26
+    LPAREN           shift, and go to state 27
+
+    method_call  go to state 28
+    expr         go to state 29
+    literal      go to state 30
+
+
+state 19
+
+    8 method_decl: VOID IDENTIFIER LPAREN . param_list RPAREN block
+   10            | VOID IDENTIFIER LPAREN . param_list RPAREN EXTERN SEMICOLON
+
+    BOOL     shift, and go to state 6
+    INTEGER  shift, and go to state 7
+
+    $default  reduce using rule 11 (param_list)
+
+    param_list  go to state 31
+    param       go to state 32
+    type        go to state 33
+
+
+state 20
+
+    7 method_decl: type IDENTIFIER LPAREN . param_list RPAREN block
+    9            | type IDENTIFIER LPAREN . param_list RPAREN EXTERN SEMICOLON
+
+    BOOL     shift, and go to state 6
+    INTEGER  shift, and go to state 7
+
+    $default  reduce using rule 11 (param_list)
+
+    param_list  go to state 34
+    param       go to state 32
+    type        go to state 33
+
+
+state 21
+
+   51 literal: INTEGER_LITERAL .
+
+    $default  reduce using rule 51 (literal)
+
+
+state 22
+
+   27 method_call: IDENTIFIER . LPAREN arg_list RPAREN
+   31 expr: IDENTIFIER .
+
+    LPAREN  shift, and go to state 35
+
+    $default  reduce using rule 31 (expr)
+
+
+state 23
+
+   53 literal: FALSE .
+
+    $default  reduce using rule 53 (literal)
+
+
+state 24
+
+   52 literal: TRUE .
+
+    $default  reduce using rule 52 (literal)
+
+
+state 25
+
+   35 expr: MINUS . expr
+
+    INTEGER_LITERAL  shift, and go to state 21
+    IDENTIFIER       shift, and go to state 22
+    FALSE            shift, and go to state 23
+    TRUE             shift, and go to state 24
+    MINUS            shift, and go to state 25
+    NOT              shift, and go to state 26
+    LPAREN           shift, and go to state 27
+
+    method_call  go to state 28
+    expr         go to state 36
+    literal      go to state 30
+
+
+state 26
+
+   36 expr: NOT . expr
+
+    INTEGER_LITERAL  shift, and go to state 21
+    IDENTIFIER       shift, and go to state 22
+    FALSE            shift, and go to state 23
+    TRUE             shift, and go to state 24
+    MINUS            shift, and go to state 25
+    NOT              shift, and go to state 26
+    LPAREN           shift, and go to state 27
+
+    method_call  go to state 28
+    expr         go to state 37
+    literal      go to state 30
+
+
+state 27
+
+   37 expr: LPAREN . expr RPAREN
+
+    INTEGER_LITERAL  shift, and go to state 21
+    IDENTIFIER       shift, and go to state 22
+    FALSE            shift, and go to state 23
+    TRUE             shift, and go to state 24
+    MINUS            shift, and go to state 25
+    NOT              shift, and go to state 26
+    LPAREN           shift, and go to state 27
+
+    method_call  go to state 28
+    expr         go to state 38
+    literal      go to state 30
+
+
+state 28
+
+   32 expr: method_call .
+
+    $default  reduce using rule 32 (expr)
+
+
+state 29
+
+    4 var_decl: type IDENTIFIER ASSIGN expr . SEMICOLON
+   34 expr: expr . bin_op expr
+
+    PLUS       shift, and go to state 39
+    MINUS      shift, and go to state 40
+    MULTIPLY   shift, and go to state 41
+    DIVIDE     shift, and go to state 42
+    MODULO     shift, and go to state 43
+    LESS       shift, and go to state 44
+    GREATER    shift, and go to state 45
+    EQUAL      shift, and go to state 46
+    AND        shift, and go to state 47
+    OR         shift, and go to state 48
+    SEMICOLON  shift, and go to state 49
+
+    bin_op    go to state 50
+    arith_op  go to state 51
+    rel_op    go to state 52
+    cond_op   go to state 53
+
+
+state 30
+
+   33 expr: literal .
+
+    $default  reduce using rule 33 (expr)
+
+
+state 31
+
+    8 method_decl: VOID IDENTIFIER LPAREN param_list . RPAREN block
+   10            | VOID IDENTIFIER LPAREN param_list . RPAREN EXTERN SEMICOLON
+   13 param_list: param_list . COMMA param
+
+    RPAREN  shift, and go to state 54
+    COMMA   shift, and go to state 55
+
+
+state 32
+
+   12 param_list: param .
+
+    $default  reduce using rule 12 (param_list)
+
+
+state 33
+
+   14 param: type . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 56
+
+
+state 34
+
+    7 method_decl: type IDENTIFIER LPAREN param_list . RPAREN block
+    9            | type IDENTIFIER LPAREN param_list . RPAREN EXTERN SEMICOLON
+   13 param_list: param_list . COMMA param
+
+    RPAREN  shift, and go to state 57
+    COMMA   shift, and go to state 55
+
+
+state 35
+
+   27 method_call: IDENTIFIER LPAREN . arg_list RPAREN
+
+    INTEGER_LITERAL  shift, and go to state 21
+    IDENTIFIER       shift, and go to state 22
+    FALSE            shift, and go to state 23
+    TRUE             shift, and go to state 24
+    MINUS            shift, and go to state 25
+    NOT              shift, and go to state 26
+    LPAREN           shift, and go to state 27
+
+    $default  reduce using rule 28 (arg_list)
+
+    method_call  go to state 28
+    arg_list     go to state 58
+    expr         go to state 59
+    literal      go to state 30
+
+
+state 36
+
+   34 expr: expr . bin_op expr
+   35     | MINUS expr .
+
+    $default  reduce using rule 35 (expr)
+
+    bin_op    go to state 50
+    arith_op  go to state 51
+    rel_op    go to state 52
+    cond_op   go to state 53
+
+
+state 37
+
+   34 expr: expr . bin_op expr
+   36     | NOT expr .
+
+    $default  reduce using rule 36 (expr)
+
+    bin_op    go to state 50
+    arith_op  go to state 51
+    rel_op    go to state 52
+    cond_op   go to state 53
+
+
+state 38
+
+   34 expr: expr . bin_op expr
+   37     | LPAREN expr . RPAREN
+
+    PLUS      shift, and go to state 39
+    MINUS     shift, and go to state 40
+    MULTIPLY  shift, and go to state 41
+    DIVIDE    shift, and go to state 42
+    MODULO    shift, and go to state 43
+    LESS      shift, and go to state 44
+    GREATER   shift, and go to state 45
+    EQUAL     shift, and go to state 46
+    AND       shift, and go to state 47
+    OR        shift, and go to state 48
+    RPAREN    shift, and go to state 60
+
+    bin_op    go to state 50
+    arith_op  go to state 51
+    rel_op    go to state 52
+    cond_op   go to state 53
+
+
+state 39
+
+   41 arith_op: PLUS .
+
+    $default  reduce using rule 41 (arith_op)
+
+
+state 40
+
+   42 arith_op: MINUS .
+
+    $default  reduce using rule 42 (arith_op)
+
+
+state 41
+
+   43 arith_op: MULTIPLY .
+
+    $default  reduce using rule 43 (arith_op)
+
+
+state 42
+
+   44 arith_op: DIVIDE .
+
+    $default  reduce using rule 44 (arith_op)
+
+
+state 43
+
+   45 arith_op: MODULO .
+
+    $default  reduce using rule 45 (arith_op)
+
+
+state 44
+
+   46 rel_op: LESS .
+
+    $default  reduce using rule 46 (rel_op)
+
+
+state 45
+
+   47 rel_op: GREATER .
+
+    $default  reduce using rule 47 (rel_op)
+
+
+state 46
+
+   48 rel_op: EQUAL .
+
+    $default  reduce using rule 48 (rel_op)
+
+
+state 47
+
+   49 cond_op: AND .
+
+    $default  reduce using rule 49 (cond_op)
+
+
+state 48
+
+   50 cond_op: OR .
+
+    $default  reduce using rule 50 (cond_op)
+
+
+state 49
+
+    4 var_decl: type IDENTIFIER ASSIGN expr SEMICOLON .
+
+    $default  reduce using rule 4 (var_decl)
+
+
+state 50
+
+   34 expr: expr bin_op . expr
+
+    INTEGER_LITERAL  shift, and go to state 21
+    IDENTIFIER       shift, and go to state 22
+    FALSE            shift, and go to state 23
+    TRUE             shift, and go to state 24
+    MINUS            shift, and go to state 25
+    NOT              shift, and go to state 26
+    LPAREN           shift, and go to state 27
+
+    method_call  go to state 28
+    expr         go to state 61
+    literal      go to state 30
+
+
+state 51
+
+   38 bin_op: arith_op .
+
+    $default  reduce using rule 38 (bin_op)
+
+
+state 52
+
+   39 bin_op: rel_op .
+
+    $default  reduce using rule 39 (bin_op)
+
+
+state 53
+
+   40 bin_op: cond_op .
+
+    $default  reduce using rule 40 (bin_op)
+
+
+state 54
+
+    8 method_decl: VOID IDENTIFIER LPAREN param_list RPAREN . block
+   10            | VOID IDENTIFIER LPAREN param_list RPAREN . EXTERN SEMICOLON
+
+    EXTERN  shift, and go to state 62
+    LBRACE  shift, and go to state 63
+
+    block  go to state 64
+
+
+state 55
+
+   13 param_list: param_list COMMA . param
+
+    BOOL     shift, and go to state 6
+    INTEGER  shift, and go to state 7
+
+    param  go to state 65
+    type   go to state 33
+
+
+state 56
+
+   14 param: type IDENTIFIER .
+
+    $default  reduce using rule 14 (param)
+
+
+state 57
+
+    7 method_decl: type IDENTIFIER LPAREN param_list RPAREN . block
+    9            | type IDENTIFIER LPAREN param_list RPAREN . EXTERN SEMICOLON
+
+    EXTERN  shift, and go to state 66
+    LBRACE  shift, and go to state 63
+
+    block  go to state 67
+
+
+state 58
+
+   27 method_call: IDENTIFIER LPAREN arg_list . RPAREN
+   30 arg_list: arg_list . COMMA expr
+
+    RPAREN  shift, and go to state 68
+    COMMA   shift, and go to state 69
+
+
+state 59
+
+   29 arg_list: expr .
+   34 expr: expr . bin_op expr
+
+    PLUS      shift, and go to state 39
+    MINUS     shift, and go to state 40
+    MULTIPLY  shift, and go to state 41
+    DIVIDE    shift, and go to state 42
+    MODULO    shift, and go to state 43
+    LESS      shift, and go to state 44
+    GREATER   shift, and go to state 45
+    EQUAL     shift, and go to state 46
+    AND       shift, and go to state 47
+    OR        shift, and go to state 48
+
+    $default  reduce using rule 29 (arg_list)
+
+    bin_op    go to state 50
+    arith_op  go to state 51
+    rel_op    go to state 52
+    cond_op   go to state 53
+
+
+state 60
+
+   37 expr: LPAREN expr RPAREN .
+
+    $default  reduce using rule 37 (expr)
+
+
+state 61
+
+   34 expr: expr . bin_op expr
+   34     | expr bin_op expr .
+
+    PLUS      shift, and go to state 39
+    MINUS     shift, and go to state 40
+    MULTIPLY  shift, and go to state 41
+    DIVIDE    shift, and go to state 42
+    MODULO    shift, and go to state 43
+    LESS      shift, and go to state 44
+    GREATER   shift, and go to state 45
+    EQUAL     shift, and go to state 46
+    AND       shift, and go to state 47
+    OR        shift, and go to state 48
+
+    PLUS      [reduce using rule 34 (expr)]
+    MINUS     [reduce using rule 34 (expr)]
+    MULTIPLY  [reduce using rule 34 (expr)]
+    DIVIDE    [reduce using rule 34 (expr)]
+    MODULO    [reduce using rule 34 (expr)]
+    LESS      [reduce using rule 34 (expr)]
+    GREATER   [reduce using rule 34 (expr)]
+    EQUAL     [reduce using rule 34 (expr)]
+    AND       [reduce using rule 34 (expr)]
+    OR        [reduce using rule 34 (expr)]
+    $default  reduce using rule 34 (expr)
+
+    bin_op    go to state 50
+    arith_op  go to state 51
+    rel_op    go to state 52
+    cond_op   go to state 53
+
+
+state 62
+
+   10 method_decl: VOID IDENTIFIER LPAREN param_list RPAREN EXTERN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 70
+
+
+state 63
+
+   17 block: LBRACE . var_decl_list statement_list RBRACE
+
+    $default  reduce using rule 2 (var_decl_list)
+
+    var_decl_list  go to state 71
+
+
+state 64
+
+    8 method_decl: VOID IDENTIFIER LPAREN param_list RPAREN block .
+
+    $default  reduce using rule 8 (method_decl)
+
+
+state 65
+
+   13 param_list: param_list COMMA param .
+
+    $default  reduce using rule 13 (param_list)
+
+
+state 66
+
+    9 method_decl: type IDENTIFIER LPAREN param_list RPAREN EXTERN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 72
+
+
+state 67
+
+    7 method_decl: type IDENTIFIER LPAREN param_list RPAREN block .
+
+    $default  reduce using rule 7 (method_decl)
+
+
+state 68
+
+   27 method_call: IDENTIFIER LPAREN arg_list RPAREN .
+
+    $default  reduce using rule 27 (method_call)
+
+
+state 69
+
+   30 arg_list: arg_list COMMA . expr
+
+    INTEGER_LITERAL  shift, and go to state 21
+    IDENTIFIER       shift, and go to state 22
+    FALSE            shift, and go to state 23
+    TRUE             shift, and go to state 24
+    MINUS            shift, and go to state 25
+    NOT              shift, and go to state 26
+    LPAREN           shift, and go to state 27
+
+    method_call  go to state 28
+    expr         go to state 73
+    literal      go to state 30
+
+
+state 70
+
+   10 method_decl: VOID IDENTIFIER LPAREN param_list RPAREN EXTERN SEMICOLON .
+
+    $default  reduce using rule 10 (method_decl)
+
+
+state 71
+
+    3 var_decl_list: var_decl_list . var_decl
+   17 block: LBRACE var_decl_list . statement_list RBRACE
+
+    BOOL     shift, and go to state 6
+    INTEGER  shift, and go to state 7
+
+    $default  reduce using rule 18 (statement_list)
+
+    var_decl        go to state 8
+    type            go to state 10
+    statement_list  go to state 74
+
+
+state 72
+
+    9 method_decl: type IDENTIFIER LPAREN param_list RPAREN EXTERN SEMICOLON .
+
+    $default  reduce using rule 9 (method_decl)
+
+
+state 73
+
+   30 arg_list: arg_list COMMA expr .
+   34 expr: expr . bin_op expr
+
+    PLUS      shift, and go to state 39
+    MINUS     shift, and go to state 40
+    MULTIPLY  shift, and go to state 41
+    DIVIDE    shift, and go to state 42
+    MODULO    shift, and go to state 43
+    LESS      shift, and go to state 44
+    GREATER   shift, and go to state 45
+    EQUAL     shift, and go to state 46
+    AND       shift, and go to state 47
+    OR        shift, and go to state 48
+
+    $default  reduce using rule 30 (arg_list)
+
+    bin_op    go to state 50
+    arith_op  go to state 51
+    rel_op    go to state 52
+    cond_op   go to state 53
+
+
+state 74
+
+   17 block: LBRACE var_decl_list statement_list . RBRACE
+   19 statement_list: statement_list . statement
+
+    IDENTIFIER  shift, and go to state 75
+    IF          shift, and go to state 76
+    RETURN      shift, and go to state 77
+    WHILE       shift, and go to state 78
+    LBRACE      shift, and go to state 63
+    RBRACE      shift, and go to state 79
+
+    block        go to state 80
+    statement    go to state 81
+    method_call  go to state 82
+
+
+state 75
+
+   20 statement: IDENTIFIER . ASSIGN expr SEMICOLON
+   27 method_call: IDENTIFIER . LPAREN arg_list RPAREN
+
+    ASSIGN  shift, and go to state 83
+    LPAREN  shift, and go to state 35
+
+
+state 76
+
+   22 statement: IF . LPAREN expr RPAREN THEN block ELSE block
+
+    LPAREN  shift, and go to state 84
+
+
+state 77
+
+   24 statement: RETURN . expr SEMICOLON
+   25          | RETURN . SEMICOLON
+
+    INTEGER_LITERAL  shift, and go to state 21
+    IDENTIFIER       shift, and go to state 22
+    FALSE            shift, and go to state 23
+    TRUE             shift, and go to state 24
+    MINUS            shift, and go to state 25
+    NOT              shift, and go to state 26
+    LPAREN           shift, and go to state 27
+    SEMICOLON        shift, and go to state 85
+
+    method_call  go to state 28
+    expr         go to state 86
+    literal      go to state 30
+
+
+state 78
+
+   23 statement: WHILE . expr block
+
+    INTEGER_LITERAL  shift, and go to state 21
+    IDENTIFIER       shift, and go to state 22
+    FALSE            shift, and go to state 23
+    TRUE             shift, and go to state 24
+    MINUS            shift, and go to state 25
+    NOT              shift, and go to state 26
+    LPAREN           shift, and go to state 27
+
+    method_call  go to state 28
+    expr         go to state 87
+    literal      go to state 30
+
+
+state 79
+
+   17 block: LBRACE var_decl_list statement_list RBRACE .
+
+    $default  reduce using rule 17 (block)
+
+
+state 80
+
+   26 statement: block .
+
+    $default  reduce using rule 26 (statement)
+
+
+state 81
+
+   19 statement_list: statement_list statement .
+
+    $default  reduce using rule 19 (statement_list)
+
+
+state 82
+
+   21 statement: method_call . SEMICOLON
+
+    SEMICOLON  shift, and go to state 88
+
+
+state 83
+
+   20 statement: IDENTIFIER ASSIGN . expr SEMICOLON
+
+    INTEGER_LITERAL  shift, and go to state 21
+    IDENTIFIER       shift, and go to state 22
+    FALSE            shift, and go to state 23
+    TRUE             shift, and go to state 24
+    MINUS            shift, and go to state 25
+    NOT              shift, and go to state 26
+    LPAREN           shift, and go to state 27
+
+    method_call  go to state 28
+    expr         go to state 89
+    literal      go to state 30
+
+
+state 84
+
+   22 statement: IF LPAREN . expr RPAREN THEN block ELSE block
+
+    INTEGER_LITERAL  shift, and go to state 21
+    IDENTIFIER       shift, and go to state 22
+    FALSE            shift, and go to state 23
+    TRUE             shift, and go to state 24
+    MINUS            shift, and go to state 25
+    NOT              shift, and go to state 26
+    LPAREN           shift, and go to state 27
+
+    method_call  go to state 28
+    expr         go to state 90
+    literal      go to state 30
+
+
+state 85
+
+   25 statement: RETURN SEMICOLON .
+
+    $default  reduce using rule 25 (statement)
+
+
+state 86
+
+   24 statement: RETURN expr . SEMICOLON
+   34 expr: expr . bin_op expr
+
+    PLUS       shift, and go to state 39
+    MINUS      shift, and go to state 40
+    MULTIPLY   shift, and go to state 41
+    DIVIDE     shift, and go to state 42
+    MODULO     shift, and go to state 43
+    LESS       shift, and go to state 44
+    GREATER    shift, and go to state 45
+    EQUAL      shift, and go to state 46
+    AND        shift, and go to state 47
+    OR         shift, and go to state 48
+    SEMICOLON  shift, and go to state 91
+
+    bin_op    go to state 50
+    arith_op  go to state 51
+    rel_op    go to state 52
+    cond_op   go to state 53
+
+
+state 87
+
+   23 statement: WHILE expr . block
+   34 expr: expr . bin_op expr
+
+    PLUS      shift, and go to state 39
+    MINUS     shift, and go to state 40
+    MULTIPLY  shift, and go to state 41
+    DIVIDE    shift, and go to state 42
+    MODULO    shift, and go to state 43
+    LESS      shift, and go to state 44
+    GREATER   shift, and go to state 45
+    EQUAL     shift, and go to state 46
+    AND       shift, and go to state 47
+    OR        shift, and go to state 48
+    LBRACE    shift, and go to state 63
+
+    block     go to state 92
+    bin_op    go to state 50
+    arith_op  go to state 51
+    rel_op    go to state 52
+    cond_op   go to state 53
+
+
+state 88
+
+   21 statement: method_call SEMICOLON .
+
+    $default  reduce using rule 21 (statement)
+
+
+state 89
+
+   20 statement: IDENTIFIER ASSIGN expr . SEMICOLON
+   34 expr: expr . bin_op expr
+
+    PLUS       shift, and go to state 39
+    MINUS      shift, and go to state 40
+    MULTIPLY   shift, and go to state 41
+    DIVIDE     shift, and go to state 42
+    MODULO     shift, and go to state 43
+    LESS       shift, and go to state 44
+    GREATER    shift, and go to state 45
+    EQUAL      shift, and go to state 46
+    AND        shift, and go to state 47
+    OR         shift, and go to state 48
+    SEMICOLON  shift, and go to state 93
+
+    bin_op    go to state 50
+    arith_op  go to state 51
+    rel_op    go to state 52
+    cond_op   go to state 53
+
+
+state 90
+
+   22 statement: IF LPAREN expr . RPAREN THEN block ELSE block
+   34 expr: expr . bin_op expr
+
+    PLUS      shift, and go to state 39
+    MINUS     shift, and go to state 40
+    MULTIPLY  shift, and go to state 41
+    DIVIDE    shift, and go to state 42
+    MODULO    shift, and go to state 43
+    LESS      shift, and go to state 44
+    GREATER   shift, and go to state 45
+    EQUAL     shift, and go to state 46
+    AND       shift, and go to state 47
+    OR        shift, and go to state 48
+    RPAREN    shift, and go to state 94
+
+    bin_op    go to state 50
+    arith_op  go to state 51
+    rel_op    go to state 52
+    cond_op   go to state 53
+
+
+state 91
+
+   24 statement: RETURN expr SEMICOLON .
+
+    $default  reduce using rule 24 (statement)
+
+
+state 92
+
+   23 statement: WHILE expr block .
+
+    $default  reduce using rule 23 (statement)
+
+
+state 93
+
+   20 statement: IDENTIFIER ASSIGN expr SEMICOLON .
+
+    $default  reduce using rule 20 (statement)
+
+
+state 94
+
+   22 statement: IF LPAREN expr RPAREN . THEN block ELSE block
+
+    THEN  shift, and go to state 95
+
+
+state 95
+
+   22 statement: IF LPAREN expr RPAREN THEN . block ELSE block
+
+    LBRACE  shift, and go to state 63
+
+    block  go to state 96
+
+
+state 96
+
+   22 statement: IF LPAREN expr RPAREN THEN block . ELSE block
+
+    ELSE  shift, and go to state 97
+
+
+state 97
+
+   22 statement: IF LPAREN expr RPAREN THEN block ELSE . block
+
+    LBRACE  shift, and go to state 63
+
+    block  go to state 98
+
+
+state 98
+
+   22 statement: IF LPAREN expr RPAREN THEN block ELSE block .
+
+    $default  reduce using rule 22 (statement)

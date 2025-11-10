@@ -9,8 +9,6 @@ IRCode* generate_intermediate_code(ASTNode* root) {
         return NULL;
     }
     
-    printf("Generando código intermedio...\n");
-    
     IRCode* ir_code = malloc(sizeof(IRCode));
     if (!ir_code) {
         fprintf(stderr, "Error: No se pudo asignar memoria para el código intermedio\n");
@@ -194,12 +192,13 @@ void generate_var_decl_ir(ASTNode* node, IRCode* ir_code) {
     }
     
     // Para declaraciones de variables, generar inicialización
-    if (node->child_count >= 3) {
-        ASTNode* id_node = node->children[1];  // identificador
-        ASTNode* expr_node = node->children[2]; // expresión
+    // Estructura: children[0] = tipo, children[1] = expresión
+    // string_value = nombre de la variable
+    if (node->child_count >= 2 && node->string_value) {
+        ASTNode* expr_node = node->children[1]; // expresión
+        char* var_name = node->string_value;
         
-        if (id_node && expr_node) {
-            char* var_name = id_node->string_value;
+        if (expr_node) {
             char* temp = generate_expression_ir(expr_node, ir_code);
             
             if (temp && var_name) {
@@ -217,29 +216,29 @@ void generate_method_decl_ir(ASTNode* node, IRCode* ir_code) {
         return;
     }
     
-    // Generar etiqueta de inicio de función
-    if (node->child_count >= 1) {
-        ASTNode* id_node = node->children[0];
-        if (id_node && id_node->string_value) {
-            char* func_name = id_node->string_value;
-            IRInstruction* start_instr = create_ir_instruction(IR_FUNC_START, NULL, func_name, NULL, NULL);
-            if (start_instr) {
-                add_instruction(ir_code, start_instr);
+    // Estructura: string_value = nombre función
+    // children[0] = tipo retorno, children[1] = param_list (opcional), children[2] = bloque
+    if (node->string_value) {
+        char* func_name = node->string_value;
+        IRInstruction* start_instr = create_ir_instruction(IR_FUNC_START, NULL, func_name, NULL, NULL);
+        if (start_instr) {
+            add_instruction(ir_code, start_instr);
+        }
+        
+        // Generar código para el cuerpo de la función
+        // El bloque está en el último hijo (después del tipo y param_list)
+        int block_index = node->child_count - 1;
+        if (block_index >= 0) {
+            ASTNode* block_node = node->children[block_index];
+            if (block_node && block_node->type == BLOCK_NODE) {
+                generate_block_ir(block_node, ir_code);
             }
-            
-            // Generar código para el cuerpo de la función
-            if (node->child_count >= 2) {
-                ASTNode* block_node = node->children[1];
-                if (block_node) {
-                    generate_block_ir(block_node, ir_code);
-                }
-            }
-            
-            // Generar etiqueta de fin de función
-            IRInstruction* end_instr = create_ir_instruction(IR_FUNC_END, NULL, func_name, NULL, NULL);
-            if (end_instr) {
-                add_instruction(ir_code, end_instr);
-            }
+        }
+        
+        // Generar etiqueta de fin de función
+        IRInstruction* end_instr = create_ir_instruction(IR_FUNC_END, NULL, func_name, NULL, NULL);
+        if (end_instr) {
+            add_instruction(ir_code, end_instr);
         }
     }
 }
@@ -284,11 +283,14 @@ void generate_assign_stmt_ir(ASTNode* node, IRCode* ir_code) {
         return;
     }
     
+    // Estructura: children[0] = identificador (pero el nombre está en string_value del statement)
+    // children[1] = expresión
+    // Necesitamos obtener el nombre de la variable del primer hijo
     if (node->child_count >= 2) {
-        ASTNode* id_node = node->children[0];    // variable
+        ASTNode* id_node = node->children[0];    // variable (IDENTIFIER_NODE)
         ASTNode* expr_node = node->children[1];  // expresión
         
-        if (id_node && expr_node) {
+        if (id_node && expr_node && id_node->string_value) {
             char* var_name = id_node->string_value;
             char* temp = generate_expression_ir(expr_node, ir_code);
             

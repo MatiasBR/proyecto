@@ -71,6 +71,9 @@ ASTNode* create_ast_node(ASTNodeType type, int int_value, char* string_value);
 void free_ast_node(ASTNode* node);
 void print_ast(ASTNode* node, int depth);
 const char* get_node_type_name(ASTNodeType type);
+void add_child(ASTNode* parent, ASTNode* child);
+ASTNode* create_list_node(ASTNodeType list_type);
+void add_to_list(ASTNode* list, ASTNode* item);
 
 #endif
 

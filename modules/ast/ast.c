@@ -83,6 +83,26 @@ void print_ast(ASTNode* node, int depth) {
     }
 }
 
+void add_child(ASTNode* parent, ASTNode* child) {
+    if (!parent || !child) return;
+    
+    parent->children = realloc(parent->children, sizeof(ASTNode*) * (parent->child_count + 1));
+    if (!parent->children) {
+        fprintf(stderr, "Error: No se pudo asignar memoria para hijos del nodo AST\n");
+        exit(1);
+    }
+    parent->children[parent->child_count] = child;
+    parent->child_count++;
+}
+
+ASTNode* create_list_node(ASTNodeType list_type) {
+    return create_ast_node(list_type, 0, NULL);
+}
+
+void add_to_list(ASTNode* list, ASTNode* item) {
+    add_child(list, item);
+}
+
 const char* get_node_type_name(ASTNodeType type) {
     switch (type) {
         case PROGRAM_NODE: return "PROGRAM";

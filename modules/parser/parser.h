@@ -71,7 +71,8 @@
      RBRACE = 287,
      SEMICOLON = 288,
      COMMA = 289,
-     ERROR = 290
+     ERROR = 290,
+     UMINUS = 291
    };
 #endif
 /* Tokens.  */
@@ -108,6 +109,7 @@
 #define SEMICOLON 288
 #define COMMA 289
 #define ERROR 290
+#define UMINUS 291
 
 
 
@@ -121,7 +123,7 @@ typedef union YYSTYPE
     ASTNode* node;
 }
 /* Line 1529 of yacc.c.  */
-#line 125 "modules/parser/parser.h"
+#line 127 "modules/parser/parser.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
