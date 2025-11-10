@@ -26,13 +26,9 @@ int semantic_analysis(ASTNode* root) {
         return 0;
     }
     
-    printf("Iniciando análisis semántico...\n");
-    
-    // Inicializar variables globales
     semantic_errors = 0;
     has_main_function = 0;
     
-    // Inicializar tabla de símbolos
     init_symtab();
     
     int result = analyze_program(root);
@@ -44,12 +40,6 @@ int semantic_analysis(ASTNode* root) {
     //     result = 0;
     // }
     
-    if (result && semantic_errors == 0) {
-        printf("Análisis semántico exitoso\n");
-    } else {
-        printf("Errores encontrados en el análisis semántico (%d errores)\n", semantic_errors);
-    }
-    
     return result && semantic_errors == 0;
 }
 
@@ -58,7 +48,6 @@ int analyze_program(ASTNode* node) {
         return 0;
     }
     
-    printf("Analizando programa...\n");
     
     // Primera pasada: Declarar todas las funciones y variables globales
     for (int i = 0; i < node->child_count; i++) {
