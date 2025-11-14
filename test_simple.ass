@@ -1,0 +1,16 @@
+.section .text
+.global _start
+.global main
+_start:
+    call main
+    mov $60, %rax
+    mov $0, %rdi
+    syscall
+
+main:
+    push %rbp
+    mov %rsp, %rbp
+    mov $5, %rax
+    pop %rbp
+    ret
+
