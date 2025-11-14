@@ -79,7 +79,7 @@ Hay varios archivos de test en la raíz: `test_simple.ctds`, `test_func.ctds`, `
 
 ## Documentación
 
-La documentación está en `DOCUMENTACION_FINAL.md`. Los PDFs de especificación están en `proyec.txt` y `proyec2.txt`.
+La documentación está en `DOCUMENTACION_FINAL.md`.
 
 ## Requisitos
 
