@@ -1,0 +1,151 @@
+1
+Universidad Nacional de R´ıo Cuarto
+Facultad de Ciencias Exactas F´ısico-Qu´ımicas y Naturales
+Departamento de Computaci´on
+Taller de Dise˜no de Software
+(Cod. 3306)
+Descripci´on del Proyecto
+2025
+En este documento se presenta una descripci´on general del proyecto, los requisitos y condiciones establecidas para la realizaci´on y aprobaci´on del mismo. El objetivo es establecer un panorama general
+que permita apreciar el tipo de proyecto, actividades y fechas propuestas. Los detalles t´ecnicos del
+proyecto ser´an introducidos en clase y/o presentados en otros documentos, por lo cual, no es necesario
+que conozca todos los t´erminos t´ecnicos de este documento.
+El proyecto consiste en el dise˜no e implementaci´on de un compilador para un lenguaje de programaci´on
+simple, denominado TDS25. El trabajo se abordar´a de una manera incremental, y se ha dividido en
+distintas etapas, para las cuales se han establecido plazos de entrega. En cada etapa se a˜nade a la
+anterior una nueva fase del compilador. Se espera que todos los grupos completen todas las fases en
+exitosamente.
+Los Proyectos est´an propuestos para ser realizados en grupos de un tama˜no m´aximo de 3 personas. En
+la valoraci´on de estos Proyectos no se tendr´a en cuenta el n´umero de alumnos que componen el grupo,
+las dificultades de coordinaci´on surgidas dentro del grupo, etc.
+Cronograma de Actividades
+Etapa Inicio/Entrega Fecha
+An´alizador Sint´actico y L´exico Inicio: Miercoles 3 de Septiembre.
+(Scanner y Parser) Entrega: Lunes 15 de Septiembre.
+An´alizador Sem´antico Inicio: Lunes 15 de Septiembre.
+Entrega TS y AST: Miercoles 24 de Septiembre.
+Entrega An. Sem´antico: Miercoles 01 de Octubre.
+Generador C´odigo Intermedio Inicio: Miercoles 01 de Octubre.
+Entrega: Miercoles 08 de Octubre.
+Generador C´odigo Objeto Inicio: Miercoles 08 de Octubre.
+Entrega Enteros: lunes 27 de Octubre.
+Optimizador Inicio: lunes 27 de Octubre.
+Entrega: Miercoles 12 de Noviembre.
+Entrega Final Entrega: Viernes 15 de Noviembre.
+Etapas del Proyecto
+Descripciones de cada una de las 6 etapas del compilador en el orden en se realizar´an para implementar
+el compilador.
+An´alisis L´exico y Sint´actico
+El Analizador L´exico toma como entrada un archivo con c´odigo fuente TDS25 y retorna tokens. Un
+token representa a una clase de s´ımbolos del lenguaje. Por ejemplo, operadores (*,+,<), delimitadores
+Descripci´on del Proyecto - 2025 - Taller de Dise˜no de Software (Cod. 3306) - DC - FCEFQyN - UNRC 2
+((,{), palabras reservadas (while, else), literales (342, 3.5) o identificadores (var1, cant). S´ımbolos
+que no son tokens son descartados, por ejemplo, espacios, tabulaciones, nuevas l´ıneas y comentarios.
+Aquellos s´ımbolos que no son permitidos en el lenguaje deben ser reportados, por ejemplo, $, #.
+El Analizador Sint´actico, toma como entrada la secuencia de tokens y verifica que esta secuencia sea
+una secuencia v´alida, es decir, que cumpla con la especificaci´on sint´actica del lenguaje. La verificaci´on
+controla que, por ejemplo, los par´entesis y llaves esten balanceados, la presencia de operadores, etc.
+Verificaciones de tipado, nombres de variables y funciones no son realizadas en esta etapa. La salida
+de esta etapa puede ser el ´arbol sint´actico (o de parsing) o simplemente si la entrada es correcta o no
+(sint´acticamente).
+La gram´atica (especificaci´on sint´actica) del lenguaje TDS25 se presenta en otro documento. Es necesario
+separar la especificaci´on del Analizador L´exico de la especificaci´on del Analizador Sint´actico. Las
+herramientas usadas para realizar estas actividades son:
+lex/flex y yacc/bison.
+An´alisis Sem´antico
+Esta etapa verifica las reglas sem´anticas del lenguaje, por ejemplo, compatibilidad de tipos, visibilidad
+y alcance de los identificadores, etc. En esta etapa es necesario implementar una tabla de s´ımbolos
+para mantener la informaci´on de los s´ımbolos (identificadores) de un programa. El an´alisis sem´antico
+se realiz´a sobre el ´arbol de parsing utilizando la informaci´on almacenada en la tabla de s´ımbolos.
+Recomendamos no subestimar la complejidad ni el trabajo requerido para esta etapa para obtener el
+analizador sem´antico completo.
+Generador C´odigo Intermedio
+Esta etapa del compilador retorna una representaci´on intermedia (IR) del c´odigo. A partir de esta representaci´on intermedia se generar´a el c´odigo objeto. Tambi´en, cabe aclarar, que algunas optimizaciones
+y an´alisis de c´odigo pueden ser realizadas sobre el IR.
+En esta etapa se utilizar´a como c´odigo intermedio : C´odigo de Tres Direcciones para las operaciones
+con tipos enteros y ´logicos y para las operaciones de control de flujo.
+En esta etapa se concluye con la construcci´on del front-end del compilador.
+Generador C´odigo Objeto
+En esta etapa se genera c´odigo assembly x86-64 (sin optimizaciones) a partir del c´odigo intermedio. Dado el tiempo asignado a esta etapa, se recomemienda concentrarse en la correcci´on del c´odigo
+generado y no en la eficiencia o elegancia del c´odigo assembly generado.
+En esta etapa es muy importante el proceso de testing que se realice para detectar posibles errores y/o
+funcionalidades no implementadas.
+Optimizador/Extensiones
+Las extensiones y optimizaciones y/o an´alisis a realizar en esta etapa son determinadas de com´un
+acuerdo con cada grupo.
+Descripci´on del Proyecto - 2025 - Taller de Dise˜no de Software (Cod. 3306) - DC - FCEFQyN - UNRC 3
+Calificaci´on
+La calificaci´on es dividida en los siguientes items:
+An´alisis L´exico y Sint´actico 5%
+An´alisis Sem´antico 15%
+Generador de C´odigo Intermedio 5%
+Interprete 10%
+Generador de C´odigo Objeto 20%
+Optimizador 15%
+Entrega Final 30%
+Cada etapa se evaluar´a de la siguiente manera:
+ (30%) Dise˜no y documentaci´on (subjetivo). La calificaci´on se basar´a en la calidad del dise˜no, la
+claridad de la documentaci´on, el conocimiento de la teor´ıa y alternativas de implementaci´on.
+ (70%) Implementaci´on (objetivo). La evaluaci´on estar´a determinada por los casos de test que
+son exitosos. El 50% de la evaluaci´on esta dado por el resultado de ejecutar los Casos de Tests
+P´ublicos y el restante 50% por los Casos de Tests No P´ublicos. El conjunto de tests p´ublicos
+estar´an disponibles, mientras que los test no p´ublicos no ser´an distribu´ıdos. Cada etapa incluye
+instrucciones de cual es la salida esperada. Los cambios deben ser consultados previamente a la
+entrega y deben estar bien justificados.
+Todos los miembros de un grupo recibir´an la misma calificaci´on en cada etapa del proyecto. Esta
+condici´on puede cambiar en caso de detectar alg´un problema serio en el desempe˜no de las actividades
+por parte de alg´un integrante de un grupo. En ese caso deber´an contactarse a la brevedad con los
+docentes.
+Entregas
+Cada etapa requiere entregar el c´odigo fuente completo (todos los archivos necesarios para compilar el
+proyecto), un ejecutable (para correr los casos de test), los casos de test utilizados y la documentaci´on
+correspondiente a la etapa.
+Interface de la l´ınea de Comandos
+El compilador deber´a tener la siguiente interface para la l´ınea de comando.
+> c-tds [opcion] nombreArchivo.ctds
+Los argumentos de la l´ınea de comandos permitidos son los indicados en en la Tabla 1. El compilador
+toma como entrada un archivo de texto (el c´odigo fuente del programa a compilar), el nombre del
+archivo no puede empezar con ’-’ y la extensi´on del archivo debe ser .ctds.
+El comportamiento por defecto del compilador es realizar la compilaci´on, del archivo pasado por
+par´ametro, hasta la etapa corriente (la etapa que se este implementando) y generar un archivo de salida
+con extensi´on basada en la etapa (.lex, .sint, .sem, .ci, .ass, .opt) o el ejecutable con extensi´on
+.out si no se indica el target. El nombre del ejecutable por defecto debe ser nombreArchivo.out.
+Por defecto, ninguna optimizaci´on es realizada. La lista de optimizaciones posibles para implementar
+ser´an establecidas con cada grupo.
+Descripci´on del Proyecto - 2025 - Taller de Dise˜no de Software (Cod. 3306) - DC - FCEFQyN - UNRC 4
+Opci´on Acci´on
+-o <salida> Renombra el archivo ejecutable a <salida>
+-target <etapa> <etapa> es una de scan, parse, codinter o
+assembly. La compilaci´on procede hasta la
+etapa dada.
+-opt [optimizaci´on] Realiza la lista de optimizaciones. all realiza
+todas las optimizaciones soportadas.
+-debug Imprime informaci´on de debugging. Si la
+opci´on no es dada, cuando la compilaci´on es
+exitosa no deber´ıa imprimirse ninguna salida.
+Table 1: Argumentos de la l´ınea de comandos del Compilador
+Documentaci´on
+La documentaci´on deber´a ser inclu´ıda en los archivos fuentes. La misma debe ser clara, concisa y
+aportar a la claridad del c´odigo. La documentaci´on puede ser realizada en texto plano. Usar otros
+formatos (latex, html) es aceptable (y quizas deseable) pero no aporta en la calificaci´on del proyecto.
+Si aporta la calidad de la documentaci´on.
+La documentaci´on debe incluir las siguientes partes:
+1. Una breve descripci´on de como fue dividido el trabajo en la presente etapa. Esto no afecta la
+calificaci´on de los integrantes del grupo pero permite detectar posibles problemas a futuro.
+2. Una lista de desiciones de dise˜no, asumpciones, aclaraciones o extensiones realizadas en la etapa.
+Las especificaciones del proyecto permiten que cada grupo tenga la responsabilidad de tomar
+decisiones. Esta es una situaci´on que sucede habitualmente en el desarrollo de software.
+3. Una descripci´on del dise˜no y las desiciones clave que se tomaron. Si es necesario analizar distintas
+alternativas y justificar las alternativas seleccionadas. Todas aquellas decisiones acompa˜nadas
+de argumentos convincentes son aceptadas. Todas las deficiencias de dise˜no o implementaci´on
+detectadas deben ser discutidas y se debe proponer una alternativasde dise˜no y/o implementaci´on.
+Incluir los cambios realizados en etapas anteriores y explicar la necesidad de los mismos.
+4. Una breve descripci´on de los detalles de implementaci´on interesantes, por ejemplo, algoritmos no
+triviales, t´ecnicas o estructuras de datos no usuales.
+5. Una lista de problemas conocidos en el proyecto. Si es posible, incluir detalles de como se detecto
+el problema. En los casos en los cuales el compilador falla para un determinado caso de test (o
+conjunto de casos de test) y no se logr´o solucionar el el problema, se debe incluir una descripci´on
+detallada del mismo y las actividades realizadas en pos de solucionarlo.
+La responsabilidad de realizar el testing del proyecto (elaborar y correr los casos de test) es exclusiva
+de cada grupo. La efectividad y exhaustividad del testing realizado en cada etapa se ver´a reflejado en
+los resultados obtenidos con los casos de test de evaluaci´on (estos casos de test no son p´ublicos).

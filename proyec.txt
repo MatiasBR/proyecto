@@ -1,0 +1,271 @@
+1
+Universidad Nacional de R´ıo Cuarto
+Facultad de Ciencias Exactas F´ısico-Qu´ımicas y Naturales
+Departamento de Computaci´on
+Taller de Dise˜no de Software
+(Cod. 3306)
+Descripci´on del Lenguaje: TDS25
+2025
+El proyecto de la materia consiste en implementar un compilador para un lenguaje imperativo simple,
+similar a C o Pascal, llamado TDS25.
+Consideraciones del L´exico
+El lenguaje TDS25 es case-sensitive. Las palabras reservadas del lenguaje ´unicamente est´an formadas
+por min´usculas. Las palabras reservadas y los identificadores son case-sensitive. Por ejemplo, while
+es una palabra reservada, pero WHILE es un identificador; cont and Cont son dos nombres diferentes
+de variables distintas.
+Las palabras reservadas son:
+extern bool program else then false if integer return true void while
+Dos tipos de comentarios son permitidos, aquellos que comienzan con // y terminan al final de la l´ınea
+(´unicamente pueden ser de una l´ınea) y aquellos que est´an delimitados por /* y */ (pueden tener varias
+l´ıneas de extensi´on).
+Uno o m´as espacios pueden aparecer entre los s´ımbolos del lenguaje. Llamamos espacios a los espacios
+en blanco, tabulaciones, saltos de l´ıneas y/o comentarios.
+Las palabras reservadas y los identificadores deben estar separados por un espacio o por un s´ımbolo
+que no es ni una palabra reservada ni un identificador. Por ejemplo, whiletrue es un identificador, no
+dos palabras reservadas.
+Los literales del lenguaje son: n´umeros enteros. Los literales enteros son iguales a los utilizados en C
+(por ejemplo 123). Los n´umeros enteros son de 32 bit con signo, es decir, los valores est´an en el rango
+entre −2147483648 y 2147483647.
+Descripci´on del Lenguaje: TDS25 - 2025 - Taller de Dise˜no de Software (Cod. 3306) - DC - FCEFQyN - UNRC 2
+Gram´atica
+Notaci´on:
+⟨simb⟩ ⟨simb⟩ es un no-terminal.
+simb simb es un terminal
+h
+x
+i
+cero o una ocurrencia de x, i.e., x es opcional;
+notar que corchetes entre comillas ′[
+′ ′]
+′
+son terminales.
+x
+∗
+cero o m´as ocurrencias de x.
+x
++, una lista de una o m´as ocurrencias de x’s separadas por coma.
+n o llaves son usadas para agrupar;
+notar que llaves entre comillas ′{
+′ ′}
+′
+son terminales.
+| separa alternativas.
+⟨program⟩ → program ′
+{
+′
+⟨var decl⟩
+∗
+⟨method decl⟩
+∗ ′
+}
+′
+⟨var decl⟩ → ⟨type⟩ ⟨id⟩ = ⟨expr⟩ ;
+⟨method decl⟩ → 
+⟨type⟩ | void	
+⟨id⟩ (
+h
+⟨type⟩ ⟨id⟩
+	+
+,
+i
+) ⟨block⟩
+|
+
+⟨type⟩ | void	
+⟨id⟩ (
+h
+⟨type⟩ ⟨id⟩
+	+
+,
+i
+) extern ;
+⟨block⟩ → ′
+{
+′
+⟨var decl⟩
+∗
+⟨statement⟩
+∗ ′
+}
+′
+⟨type⟩ → integer | bool
+⟨statement⟩ → ⟨id⟩ = ⟨expr⟩ ;
+| ⟨method call⟩ ;
+| if ( ⟨expr⟩ ) then ⟨block⟩
+
+else ⟨block⟩
+
+| while ⟨expr⟩ ⟨block⟩
+| return
+⟨expr⟩
+
+;
+| ;
+| ⟨block⟩
+⟨method call⟩ → ⟨id⟩ (
+
+⟨expr⟩
++
+,
+
+)
+⟨expr⟩ → ⟨id⟩
+| ⟨method call⟩
+| ⟨literal⟩
+| ⟨expr⟩ ⟨bin op⟩ ⟨expr⟩
+| - ⟨expr⟩
+| ! ⟨expr⟩
+| ( ⟨expr⟩ )
+Descripci´on del Lenguaje: TDS25 - 2025 - Taller de Dise˜no de Software (Cod. 3306) - DC - FCEFQyN - UNRC 3
+⟨bin op⟩ → ⟨arith op⟩ | ⟨rel op⟩ | ⟨cond op⟩
+⟨arith op⟩ → + | - | * | / | %
+⟨rel op⟩ → < | > | ==
+⟨cond op⟩ → && | ||
+⟨literal⟩ → ⟨integer literal⟩ | ⟨bool literal⟩
+⟨id⟩ → ⟨alpha⟩ ⟨alpha num⟩
+∗
+⟨alpha num⟩ → ⟨alpha⟩ | ⟨digit⟩ |
+⟨alpha⟩ → a | b | ... | z | A | B | ... | Z
+⟨digit⟩ → 0 | 1 | 2 | ... | 9
+⟨integer literal⟩ → ⟨digit⟩ ⟨digit⟩
+∗
+⟨bool literal⟩ → true | false
+Ejemplo de Programa en TDS25
+Program
+{
+integer inc(integer x)
+{
+return x + 1;
+}
+integer get_int() extern;
+void print_int(integer i) extern ;
+void main()
+{
+integer y = 0;
+y = get_int();
+if (y == 1) then
+{
+print_int(y);
+}
+else
+{
+return print_int(inc(y));
+}
+}
+}
+Sem´antica
+Un programa TDS25 consiste de una lista de declaraciones de variables globales y funciones. El programa
+debe contener la declaraci´on de un m´etodo llamado main. Este m´etodo no tiene parametros. La
+ejecuci´on de un programa TDS25 comienza con el m´etodo main.
+Descripci´on del Lenguaje: TDS25 - 2025 - Taller de Dise˜no de Software (Cod. 3306) - DC - FCEFQyN - UNRC 4
+Tipos
+Los tipos b´asicos en TDS25 son integer y bool.
+Reglas de Alcance y Visibilidad de los Identificadores
+Las reglas de alcance y visibilidad en TDS25 son simples. Primero, todos los identificadores deben ser
+definidos (textualmente) antes de ser usados. Por ejemplo, una variable debe ser declarada antes de
+ser usada; una funci´on puede ser invocada ´unicamente por c´odigo ubicado despu´es de su declaraci´on.
+En un punto de un programa TDS25 existen al menos dos ´ambitos (scopes) v´alidos, el global y el local
+a la funci´on. El scope global esta conformado por los identificadores de las variables y de las funciones
+declaradas al definir el programa. El scope de la funci´on esta conformado por los par´ametros formales
+y los identificadores de las variables declaradas en el cuerpo de la funci´on. Se pueden definir scope
+locales adicionales al introducir bloques (⟨block⟩) de c´odigo. Los distintos scopes tienen una relaci´on
+de anidamiento, tal que, el scope global contiene a el scope de las funciones y estos contienen a los
+scopes de los bloques (los cuales tambien pueden ser declarados de manera anidada). Este anidamiento
+causa que identificadores definidos en un scope pueda ocultar un identificador con el mismo nombre
+en scopes superiores. Se debe notar que una variable local puede ocultar tanto un identificador de una
+variable como de una funci´on.
+Los nombres de los identificadores son ´unicos en cada scope. Es decir, no se puede utilizar el mismo
+identificador m´as de una vez en cada ´ambito. Por ejemplo, variables y funciones deben tener distinto
+nombre en el scope global.
+Locaciones en Memoria
+El lenguaje TDS25 tiene una clase de locaciones: variables (locales y globales). Cada locaci´on en
+memoria tiene un tipo. Por ejemplo, las locaciones de tipo integer y bool contienen valores enteros y
+l´ogicos, respectivamente;
+Cada locaci´on es inicializada con un valor por defecto cuando es declarada. Los enteros son inicializados
+con cero y los boleanos con false. Se debe notar que esto implica que cada variable local es inicializada
+cada vez que se entra al bloque en el que se declara.
+Asignaciones
+Solo se permiten asignaciones a variables de tipos b´asicos, es decir, variables de tipos integer y bool.
+La sem´antica de las asignaciones define la copia del valor. La asignaci´on ⟨location⟩ = ⟨expr⟩ copia el
+valor resultante de evaluar la ⟨expr⟩ en ⟨location⟩ (copia el valor de la expresi´on en la variable). Una
+asignaci´on es v´alida si ⟨location⟩ y ⟨expr⟩ tienen el mismo tipo. Las asignaciones de incremento y
+decremento ´unicamente son permitidas para tipos num´ericos.
+Se permite asignar valores a los par´ametros de un m´etodo, pero el efecto de estas asignaciones ´unicamente
+es visible en el scope del m´etodo. Los par´ametros son pasados por valor.
+Invocaci´on y Retorno de M´etodos
+La invocaci´on de m´etodos involucra: (1) pasar los valores de los par´ametros reales del m´etodo que
+invoca al invocado; (2) ejecutar el cuerpo del m´etodo invocado; y (3) retornar del m´etodo invocado,
+posiblemente retornando un resultado.
+Los argumentos son pasados por valor. El valor de evaluar los par´ametros reales es copiado a los
+par´ametros formales, los cuales, son considerados como variables locales del m´etodo. Los par´ametros
+son evaluados de izquierda a derecha.
+Descripci´on del Lenguaje: TDS25 - 2025 - Taller de Dise˜no de Software (Cod. 3306) - DC - FCEFQyN - UNRC 5
+Un m´etodo que no tiene declarado un tipo de retorno (un m´etodo void) ´unicamente puede ser invocado
+como una sentencia, es decir, no puede ser usado como una expresi´on. Estos m´etodos retornan con
+una sentencia return (sin expresi´on) o cuando el fin del m´etodo es alcanzado.
+Un m´etodo que retorna un resultado puede ser invocado como parte de una expresi´on. Estos m´etodos
+no pueden alcanzar el fin del m´etodo, es decir, ´unicamente retornan con una sentencia return (que
+debe tener asociado una expresi´on).
+Un m´etodo que retorna un resultado tambi´en puede ser invocado como una sentencia. En este caso, el
+resultado es ignorado.
+Sentencias de Control
+if. La sentencia if tiene la sem´antica est´andar. Primero, la ⟨expr⟩ es evaluada. Si el resultado es
+true, la rama del then es ejecutada. En otro caso, se ejecuta la rama del else, si existe.
+while. La sentencia while tiene la sem´antica est´andar. Primero, la ⟨expr⟩ es evaluada. Si el resultado
+es false, el cuerpo del ciclo no se ejecuta. En otro caso, el cuerpo del ciclo es ejecutado. Al terminar
+de ejecutar el cuerpo del ciclo, la sentencia while es ejecutada nuevamente.
+Expresiones. Las expresiones siguen las reglas usuales de evaluaci´on. En ausencia de otras restricciones, los operadores con la misma precedecia son evaluados de izquierda a derecha. Los par´entesis
+pueden ser usados para modificar la precedencia usual.
+Una locaci´on (variables) son evaluados al valor que contiene la locaci´on en memoria.
+Literales enteros se eval´uan a su valor.
+Los operadores aritm´eticos (⟨arith op⟩ y menos unario) y los operadores relacionales (⟨rel op⟩) tienen
+el significado y precedencia usual. % computa el resto de una divisi´on de n´umeros enteros.
+Los operadores relacionales son usados para comparar expresiones n´umericas. El operador de igualdad
+(==, es igual son definidos para todos los tipos b´asicos. Unicamente se pueden comparar expresiones ´
+del mismo tipo.
+El resultado de un operador relacional o de igualdad tienen tipo bool.
+Los operadores l´ogicos && y || deben ser evaluados usando evaluaci´on de corto circuito. El segundo
+operador no es evaluado si el primer operador determina el valor de toda la expresi´on, es decir, si el
+resultado es false para && o true para ||.
+Precedencia de operadores, de mayor precedencia a menor precedencia:
+Operadores Comentarios
+- menos unario
+! negaci´on l´ogica
+* / % multiplicaci´on, divisi´on, resto
++ - suma, resta
+< > relacionales (menor, mayor)
+== igual
+&& conjunci´on (and)
+|| disyunci´on (or)
+Notar que estas reglas de precedencia no esta reflejada en la gram´atica.
+Descripci´on del Lenguaje: TDS25 - 2025 - Taller de Dise˜no de Software (Cod. 3306) - DC - FCEFQyN - UNRC 6
+LLamadas a Librerias. El lenguaje TDS25 incluye un mecan´ısmo, similar al provisto por el lenguaje
+C, para invocar m´etodos de librer´ıas externas. Las funciones externas se definen utilizando la palabra
+reservada extern.
+La invocaci´on de este tipo de funciones es id´entica para ambos tipos de funciones definidas en el
+programa.
+Reglas Sem´anticas
+Estas reglas son restricciones (sem´anticas) adicionales a las reglas sint´acticas expresadas en la gram´atica.
+Un programa es v´alido si esta bien formado gramatic´almente y no viola ninguna de las siguientes reglas.
+El compilador deber´a verificar estas reglas, en caso de detectar que no se cumple alguna, deber´a generar
+un mensaje de error que describa el error detectado. Si el compilador no detecta ninguna violaci´on no
+debera generar ning´un informe.
+1. Ning´un identificador es declarado dos veces en un mismo bloque.
+2. Ning´un identificador es usado antes de ser declarado.
+3. Todo programa contiene la definici´on de un m´etodo llamado main. Este m´etodo no tiene
+par´ametros. Notar que la ejecuci´on comienza con el m´etodo main.
+4. El n´umero y tipos de los argumentos en una invocaci´on a un m´etodo debe ser iguales al n´umero
+y tipos declarados en la definici´on del m´etodo (los par´ametros formales y los reales deben ser
+iguales).
+5. Si la invocaci´on a un m´etodo es usada como una expresi´on, el m´etodo debe retornar un resultado.
+6. Una sentencia return solo tiene asociada una expresi´on si el m´etodo retorna un valor, si le m´etodo
+no retorna un valor (es un m´etodo void) entonces la sentencia return no puede tener asociada
+ninguna expresi´on.
+7. La expresi´on en una sentencia return debe ser igual al tipo de retorno declarado para el m´etodo.
+8. Un ⟨id⟩ usado como una ⟨location⟩ debe estar declarado como un par´ametro o como una variable
+local o global.
+9. La ⟨expr⟩ en una sentencia if o while debe ser bool.
+10. Los operandos de ⟨arith op⟩’s y ⟨rel op⟩’s deben ser de tipo integer.
+11. Los operandos de ⟨eq op⟩’s (==) deben tener el mismo tipo (integer o bool).
+12. Los operandos de ⟨cond op⟩’s y el operando de la negaci´on (!) deben ser de tipo bool.
+13. La ⟨location⟩ y la ⟨expr⟩ en una asignaci´on, ⟨location⟩ = ⟨expr⟩, deben tener el mismo tipo.
