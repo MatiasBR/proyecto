@@ -1,4 +1,8 @@
-# Documentación - Optimizador
+# Documentación Final - Compilador TDS25
+
+## Entrega Final - 15 de Noviembre 2025
+
+Esta documentación describe el compilador completo TDS25 desarrollado para la materia Taller de Diseño de Software. El proyecto incluye todas las etapas desde el análisis léxico hasta el optimizador.
 
 ## Etapa: Optimizador/Extensiones
 

@@ -114,7 +114,7 @@ El proyecto incluye varios archivos de test en la raíz:
 
 ## Documentación
 
-La documentación detallada del optimizador se encuentra en `DOCUMENTACION_OPTIMIZADOR.md`.
+La documentación completa del proyecto, incluyendo todas las etapas y el optimizador, se encuentra en `DOCUMENTACION_FINAL.md`.
 
 Los documentos de especificación del proyecto están en:
 - `proyec.txt` - Especificación del lenguaje TDS25
