@@ -1,30 +1,28 @@
 # Compilador TDS25
 
-Compilador completo para el lenguaje TDS25 desarrollado para la materia Taller de Diseño de Software (Código 3306) de la Universidad Nacional de Río Cuarto.
+Compilador para el lenguaje TDS25 hecho para Taller de Diseño de Software (3306) de la UNRC.
 
-## Estructura del Proyecto
+## Estructura
 
-El proyecto está organizado en módulos que corresponden a cada etapa del compilador:
+El proyecto está dividido en módulos, uno por cada etapa del compilador:
 
-- `modules/lexer/` - Analizador léxico (flex)
-- `modules/parser/` - Analizador sintáctico (bison)
-- `modules/ast/` - Árbol sintáctico abstracto
-- `modules/common/` - Tabla de símbolos y utilidades compartidas
-- `modules/semantic/` - Analizador semántico
-- `modules/intermediate/` - Generador de código intermedio
-- `modules/assembly/` - Generador de código assembly x86-64
-- `modules/optimizer/` - Optimizador de código intermedio
-- `src/` - Punto de entrada del compilador
+- `modules/lexer/` - Scanner (flex)
+- `modules/parser/` - Parser (bison) 
+- `modules/ast/` - AST
+- `modules/common/` - Tabla de símbolos
+- `modules/semantic/` - Análisis semántico
+- `modules/intermediate/` - Código intermedio
+- `modules/assembly/` - Assembly x86-64
+- `modules/optimizer/` - Optimizador
+- `src/` - Main
 
-## Compilación
-
-Para compilar el proyecto:
+## Compilar
 
 ```bash
 make
 ```
 
-Esto generará el ejecutable `c-tds`. Para limpiar archivos generados:
+Genera el ejecutable `c-tds`. Para limpiar:
 
 ```bash
 make clean
@@ -32,112 +30,67 @@ make clean
 
 ## Uso
 
-El compilador se ejecuta con:
-
 ```bash
 ./c-tds [opciones] archivo.ctds
 ```
 
-Opciones disponibles:
-- `-o <salida>` - Especifica el nombre del ejecutable de salida
-- `-target <etapa>` - Compila hasta la etapa especificada (scan, parse, codinter, assembly)
-- `-opt [optimizacion]` - Aplica optimizaciones al código intermedio
-- `-debug` - Muestra información de debugging durante la compilación
-- `-h, --help` - Muestra la ayuda
+Opciones:
+- `-o <salida>` - Nombre del ejecutable
+- `-target <etapa>` - Hasta qué etapa compilar (scan, parse, codinter, assembly)
+- `-opt [optimizacion]` - Aplicar optimizaciones
+- `-debug` - Mostrar info de debug
+- `-h, --help` - Ayuda
 
 Ejemplos:
 ```bash
-# Compilar hasta código intermedio
 ./c-tds -target codinter programa.ctds
-
-# Compilar con optimizaciones
 ./c-tds -opt all programa.ctds
-
-# Compilar hasta assembly y generar ejecutable
 ./c-tds -target assembly programa.ctds
 ```
 
-## Ramas del Repositorio
+## Ramas
 
-El proyecto se desarrolló de forma incremental, con una rama por cada entrega:
+El proyecto se hizo por etapas, cada una en su rama:
 
 ### entrega-lexico-sintactico-ast
-Primera entrega con el analizador léxico y sintáctico. Incluye:
-- Implementación del scanner con flex
-- Parser con bison
-- Construcción del AST básico
-- Validación sintáctica
+Primera entrega. Scanner con flex, parser con bison, AST básico.
 
 ### entrega-parser-expandido-24sept
-Expansión del parser para soportar más construcciones del lenguaje.
+Parser expandido con más construcciones.
 
 ### entrega-semantico-codigo-intermedio-01oct
-Segunda entrega con análisis semántico y generación de código intermedio:
-- Tabla de símbolos completa
-- Verificación de tipos
-- Validación de reglas semánticas
-- Generación de código de tres direcciones
+Análisis semántico y código intermedio. Tabla de símbolos, verificación de tipos, código de tres direcciones.
 
 ### entrega-codigo-objeto-27oct
-Tercera entrega con generador de código objeto:
-- Generación de código assembly x86-64
-- Manejo de registros y stack
-- Compilación a ejecutables
+Generación de assembly x86-64. Manejo de registros y stack.
 
 ### entrega-optimizador-12nov
-Cuarta entrega con el módulo optimizador:
-- Constant folding
-- Dead code elimination
-- Copy propagation
-- Common subexpression elimination
-- Integración con la opción -opt
+Optimizador con constant folding, dead code elimination, copy propagation y CSE.
 
 ### entrega-final-15nov
-Rama principal de la entrega final que integra todas las etapas:
-- Todas las funcionalidades anteriores
-- Interfaz de línea de comandos completa
-- Documentación final
-- Casos de test completos
+Entrega final con todo integrado. Interfaz completa, documentación y tests.
 
 ### main
-Rama principal del repositorio. Contiene la versión más estable del compilador.
+Rama principal con la versión estable.
 
-## Archivos de Test
+## Tests
 
-El proyecto incluye varios archivos de test en la raíz:
-- `test_simple.ctds` - Programa básico de prueba
-- `test_func.ctds` - Pruebas de funciones
-- `test_if.ctds` - Pruebas de estructuras condicionales
-- `test_opt.ctds` - Pruebas específicas del optimizador
-- `test_completo.ctds` - Programa más complejo
-- Y otros archivos de prueba
+Hay varios archivos de test en la raíz: `test_simple.ctds`, `test_func.ctds`, `test_if.ctds`, `test_opt.ctds`, `test_completo.ctds` y otros.
 
 ## Documentación
 
-La documentación completa del proyecto, incluyendo todas las etapas y el optimizador, se encuentra en `DOCUMENTACION_FINAL.md`.
-
-Los documentos de especificación del proyecto están en:
-- `proyec.txt` - Especificación del lenguaje TDS25
-- `proyec2.txt` - Descripción del proyecto y requisitos
+La documentación está en `DOCUMENTACION_FINAL.md`. Los PDFs de especificación están en `proyec.txt` y `proyec2.txt`.
 
 ## Requisitos
 
-- flex (o lex)
-- bison (o yacc)
-- gcc
-- as (ensamblador)
-- ld (linker)
+Necesitás flex, bison, gcc, as y ld.
 
-En sistemas basados en Debian/Ubuntu:
+Ubuntu/Debian:
 ```bash
 sudo apt-get install flex bison gcc binutils
 ```
 
-En macOS:
+macOS:
 ```bash
 brew install flex bison
 ```
-
-## Autores
-
-Proyecto desarrollado para Taller de Diseño de Software - UNRC 2025
